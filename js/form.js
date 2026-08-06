@@ -1,1 +1,0 @@
-alert ("✔form.js is working")

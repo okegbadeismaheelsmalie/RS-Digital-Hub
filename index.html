@@ -350,7 +350,9 @@
 <p>
 Tell us about your idea and we'll get back to you.
 </p>
-<form id="projectForm">
+<form id="projectForm"
+ action="https://api.web3forms.com/submit"
+ method="POST">
 
     <input type="hidden" name="access_key" value="69fb7deb-81ea-4993-bdc7-ecec3e9d5062">
 
@@ -363,7 +365,9 @@ Tell us about your idea and we'll get back to you.
     <input type="email" name="email" placeholder="Email Address" required>
 
     <input type="tel" name="phone" placeholder="Phone Number" required>
-
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+    <input type="hidden" name="redirect" value="https://rs-digital-hub.netlify.app/thank-you.html">
+ 
     <select name="service" required>
 
         <option value="">Select Service</option>
