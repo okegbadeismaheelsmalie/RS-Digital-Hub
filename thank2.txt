@@ -1,0 +1,19 @@
+﻿<script>
+    let seconds = 5;
+
+    const countdown = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
+        seconds--;
+
+        if (countdown) {
+            countdown.textContent = seconds;
+        }
+
+        if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "index.html";
+        }
+
+    }, 1000);
+</script>
