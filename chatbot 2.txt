@@ -1,0 +1,11 @@
+﻿reply = `Great choice! 🚀
+
+We have the information we need.
+
+Ready to tell us about your project?
+
+<br><br>
+
+<button class="ai-project-btn" onclick="goToProjectForm()">
+    🚀 Start Project Request
+</button>`;

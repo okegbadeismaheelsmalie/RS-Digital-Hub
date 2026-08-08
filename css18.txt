@@ -1,0 +1,38 @@
+﻿.testimonials{
+    padding:80px 10%;
+    text-align:center;
+}
+
+.testimonial-container{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:40px;
+}
+
+.testimonial-card{
+    width:320px;
+    background:#fff;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.testimonial-card:hover{
+    transform:translateY(-8px);
+}
+
+.testimonial-card p{
+    line-height:1.7;
+    margin-bottom:20px;
+}
+
+.testimonial-card h4{
+    color:#f4b400;
+}
+
+.testimonial-card span{
+    font-weight:bold;
+}

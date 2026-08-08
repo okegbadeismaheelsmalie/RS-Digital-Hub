@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | RS Digital Hub</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:linear-gradient(135deg,#0b1020,#111827);
+            color:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            padding:20px;
+        }
+
+        .card{
+            max-width:650px;
+            width:100%;
+            background:#1b263b;
+            padding:40px;
+            border-radius:20px;
+            text-align:center;
+            box-shadow:0 15px 40px rgba(0,0,0,.4);
+        }
+
+        h1{
+            color:#00d084;
+            font-size:40px;
+            margin-bottom:20px;
+        }
+
+        p{
+            font-size:18px;
+            line-height:1.8;
+            margin-bottom:15px;
+            color:#ddd;
+        }
+
+        a{
+            display:inline-block;
+            margin-top:25px;
+            padding:15px 35px;
+            background:#00d084;
+            color:#fff;
+            text-decoration:none;
+            border-radius:50px;
+            font-weight:bold;
+            transition:.3s;
+        }
+
+        a:hover{
+            transform:translateY(-3px);
+            background:#00b36b;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>🎉 Thank You!</h1>
+
+    <p>Your project request has been received successfully.</p>
+
+    <p>Our team at <strong>RS Digital Hub</strong> will review your request and contact you as soon as possible.</p>
+
+    <p>We appreciate your trust in us. 🚀</p>
+
+    <a href="index.html">🏠 Back to Home</a>
+
+</div>
+
+</body>
+</html>
