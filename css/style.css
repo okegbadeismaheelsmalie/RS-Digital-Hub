@@ -1026,3 +1026,34 @@ box-shadow:0 0 20px rgba(0,170,255,.4);
     color: #555;
     font-weight:bold;
 }
+.ai-project-btn {
+    margin-top: 10px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+}
+.chat-close{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: 0.25s ease;
+}
+
+.chat-close:hover {
+    transform: rotate(90ded);
+    background: rgba(255, 255, 255, 0.2);
+} 

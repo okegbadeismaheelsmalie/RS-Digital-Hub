@@ -9,7 +9,13 @@ chatBtn.onclick = () => {
     chatBox.style.display =
         chatBox.style.display === "block" ? "none" : "block";
 };
-
+// Safe AI Close Button
+const chatClose = document.getElementById("chatClose");
+if (chatClose) {
+    chatClose.onclick = () => {
+        chatBox.style.display = "none";
+    };
+}
 // Send Message
 sendBtn.onclick = sendMessage;
 
@@ -78,7 +84,24 @@ How many pages would you like?
         chatState = "waitingForPages";
 
     }
-
+else if (chatState === "WaitingForAIType") {
+    reply = `Excellent! 🚀
+A ${message} solution is something we can help you build.
+what would you like to do next?
+🚀Start a project Request
+💻Ask another question`;
+    chatState = "normal";
+    }
+    else if (chatState === "waitingForDesignType"){
+    reply = `Nice!🎨
+    A ${message} design sounds great.
+    Whats is the design for?
+    •	Business 
+    •	Personal 
+    •	Event 
+    •	Social media`;
+    chatState = "waitingForDesignPurpose";
+}
     // PAGE COUNT
     else if (chatState === "waitingForPages") {
 
@@ -93,7 +116,18 @@ How would you describe your project budget?
         chatState = "waitingForBudget";
 
     }
-
+else if (chatState === "waitingForDesignPurpose") {
+    reply = `Perfect!🚀
+    We have the basic details for your design project.
+    You can continue by submitting your project request below.
+    
+    <br><br>
+    
+    <a href="#project-request" class="ai-project-btn">
+    🚀 Start Project Request
+    </a>`;
+    chatState = "normal";
+}
     // BUDGET
     else if (chatState === "waitingForBudget") {
 
@@ -113,7 +147,19 @@ Ready to tell us about your project?
         chatState = "normal";
 
     }
-
+    // AI CHATBOT
+    else if (message.includes("ai chatbot")) {
+        reply = `Excellent! 🚀
+A ${message} solution is something we can help you build.
+what would you like to do next?
+<button class="ai-project-btn" onclick="goToProjectForm()">
+🚀Start a project Request
+</button>
+<button class="ai-project-btn" onclick="askAnotherQuestion()">
+💻Ask another question
+</button>`;
+chatState = "normal";
+    }
     // NORMAL CHAT
     else if (message.includes("hello") || message.includes("hi")) {
 
@@ -135,17 +181,35 @@ What kind of website do you need?
         chatState = "waitingForWebsiteType";
 
     }
+    else if (
+    message.includes("design") ||
+    message.includes("graphic") ||
+    message.includes("graphics")
+) {
 
-    else if (message.includes("design") || message.includes("graphic")) {
+    reply = `🎨 Great choice!
 
-        reply = "🎨 We create logos, flyers, branding and social media designs.";
+What type of graphic design do you need?
 
-    }
+• Logo
+• Flyer
+• Branding
+• Social Media Design`;
+
+    chatState = "waitingForDesignType";
+}
 
     else if (message.includes("ai")) {
 
-        reply = "🤖 We build AI-powered solutions and smart business tools.";
+        reply = `🤖 Great Choice!
+        What kind of AI solution are you looking for?
 
+        •	AI website 
+        •	AI Chatbot
+        •	AI Automation 
+        •	Other`; 
+
+            chatState = "waitingForAIType";
     }
 
     else if (message.includes("price") || message.includes("pricing")) {
@@ -203,9 +267,9 @@ function goToProjectForm() {
     window.location.href = "#projectForm"
 }
 function quickReply(service) {
-
+    // Reset any previous conversation flow
     const message = "I want to know about " + service;
-
+    
     chatBody.innerHTML += `
         <div class="user-message">
             ${message}
@@ -218,4 +282,19 @@ function quickReply(service) {
     botReply(service);
 
     chatBody.scrollTop = chatBody.scrollHeight;
+}
+function askAnotherQuestion() {
+chatState = "normal";
+
+userInput.focus();
+
+chatBody.innerHTML += `
+<div class="bot-message">
+Sure! 😊 What would you like to know?
+<span class="message-time">
+${getTime()}
+</span>
+</div>
+`;
+chatBody.scrollTop = chatBody.scrollHeight;
 }
