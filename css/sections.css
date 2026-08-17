@@ -1,0 +1,661 @@
+/* ==========================================================================
+   RS Digital Hub — sections.css
+   Services, process, featured, testimonials, about, portfolio,
+   project request form, contact, footer, mobile nav
+   Requires: base.css (design tokens)
+   ========================================================================== */
+
+/* ==========================================================================
+   Trust bar
+   ========================================================================== */
+
+.trust-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px 40px;
+    padding: 30px 8%;
+    background: var(--glass);
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.trust-item span {
+    font-size: 17px;
+}
+
+@media (max-width: 600px) {
+    .trust-bar {
+        gap: 16px 24px;
+        padding: 24px 6%;
+    }
+    .trust-item {
+        font-size: 13px;
+    }
+}
+
+/* ==========================================================================
+   Section shared
+   ========================================================================== */
+
+section {
+    padding: 100px 8%;
+}
+
+.services, .process, .featured, .testimonials, .portfolio, .contact, .project-request {
+    text-align: center;
+}
+
+.services h2, .process h2, .featured h2, .testimonials h2,
+.about h2, .portfolio h2, .contact h2, .project-request h2 {
+    font-size: 38px;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+}
+
+.services > p, .process > p, .portfolio > p, .contact > p, .project-request > p {
+    margin: 0 auto;
+    max-width: 560px;
+}
+
+/* ==========================================================================
+   Glass card base
+   ========================================================================== */
+
+.service-card, .process-card, .featured-card, .project-card,
+.testimonial-card, .about-box, .contact-info, .contact-form {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+/* ==========================================================================
+   Services
+   ========================================================================== */
+
+.service-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin-top: 46px;
+}
+
+.service-card {
+    padding: 32px 28px;
+    text-align: left;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(47, 208, 255, 0.4);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.service-card h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.service-card p {
+    font-size: 14.5px;
+}
+
+/* ==========================================================================
+   Process
+   ========================================================================== */
+
+.process-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 46px;
+}
+
+.process-card {
+    padding: 30px 26px;
+    text-align: left;
+    position: relative;
+}
+
+.process-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(47, 208, 255, 0.35);
+}
+
+.process-step {
+    font-family: var(--font-mono);
+    color: var(--accent-gold);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.process-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.process-card p {
+    font-size: 14.5px;
+}
+
+/* ==========================================================================
+   Featured
+   ========================================================================== */
+
+.featured-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 26px;
+    margin-top: 46px;
+}
+
+.featured-card {
+    padding: 30px 26px;
+    text-align: left;
+}
+
+.featured-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(47, 208, 255, 0.35);
+}
+
+.featured-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.featured-card p {
+    font-size: 14.5px;
+    margin-bottom: 18px;
+}
+
+/* ==========================================================================
+   Testimonials — fixed responsive grid (3 / 2 / 1)
+   ========================================================================== */
+
+.testimonial-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px;
+    margin-top: 46px;
+    align-items: stretch;
+}
+
+.testimonial-card {
+    position: relative;
+    padding: 34px 28px 28px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(240, 196, 99, 0.35);
+}
+
+.quote-mark {
+    position: absolute;
+    top: 14px;
+    right: 22px;
+    font-family: var(--font-display);
+    font-size: 54px;
+    color: rgba(240, 196, 99, 0.18);
+    line-height: 1;
+}
+
+.stars {
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+
+.testimonial-card p {
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.7;
+    flex-grow: 1;
+}
+
+.testimonial-author {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-avatar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    color: #05070d;
+    background: hsl(var(--avatar-hue, 198), 85%, 68%);
+}
+
+.author-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.author-name {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 14.5px;
+}
+
+.author-role {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+@media (max-width: 980px) {
+    .testimonial-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 620px) {
+    .testimonial-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   About
+   ========================================================================== */
+
+.about {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 60px;
+}
+
+.about-content {
+    max-width: 600px;
+}
+
+.about h3 {
+    font-size: 18px;
+    margin: 10px 0 18px;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+.about p {
+    line-height: 1.75;
+    margin-bottom: 16px;
+}
+
+.about-box {
+    padding: 36px;
+    min-width: 260px;
+}
+
+.about-box h3 {
+    color: var(--text-primary);
+    margin-bottom: 18px;
+}
+
+.about-box li {
+    list-style: none;
+    margin: 14px 0;
+    font-size: 15px;
+}
+
+@media (max-width: 900px) {
+    .about {
+        flex-direction: column;
+    }
+    .about-box {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   Portfolio
+   ========================================================================== */
+
+.portfolio-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 26px;
+    margin-top: 46px;
+}
+
+.project-card {
+    padding: 32px;
+    text-align: center;
+}
+
+.project-card:hover {
+    transform: scale(1.04);
+    border-color: rgba(47, 208, 255, 0.4);
+}
+
+.project-image {
+    font-size: 54px;
+    margin-bottom: 18px;
+}
+
+.project-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.project-card p {
+    font-size: 14.5px;
+}
+
+/* ==========================================================================
+   Project Request Form
+   ========================================================================== */
+
+.project-request form {
+    max-width: 680px;
+    margin: 46px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    text-align: left;
+}
+
+.project-request input,
+.project-request textarea,
+.project-request select {
+    padding: 15px 16px;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.project-request select {
+    color: var(--text-primary);
+}
+
+.project-request select option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+.project-request input::placeholder,
+.project-request textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.project-request input:focus,
+.project-request textarea:focus,
+.project-request select:focus {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 0 3px rgba(47, 208, 255, 0.15);
+}
+
+.project-request textarea {
+    height: 150px;
+    resize: none;
+}
+
+.project-request button[type="submit"] {
+    align-self: flex-start;
+}
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+
+.contact-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 46px;
+    flex-wrap: wrap;
+}
+
+.contact-info {
+    text-align: left;
+    min-width: 280px;
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.contact-info h3 {
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.contact-link {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    transition: color 0.25s var(--ease);
+}
+
+.contact-link:hover {
+    color: var(--accent-cyan);
+}
+
+.contact-static {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 350px;
+    padding: 34px;
+    text-align: left;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 14px 15px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--glass-border);
+    outline: none;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--accent-cyan);
+}
+
+.contact-form textarea {
+    height: 120px;
+    resize: none;
+}
+
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .contact-form {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+footer {
+    padding: 56px 8% 30px;
+    background: #030408;
+    border-top: 1px solid var(--glass-border);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.footer-brand h2 {
+    color: var(--accent-gold);
+    font-size: 20px;
+}
+
+.footer-brand p {
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+footer h3 {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.footer-links, .footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-links a, .footer-social a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14.5px;
+    transition: color 0.25s var(--ease);
+}
+
+.footer-links a:hover, .footer-social a:hover {
+    color: var(--accent-cyan);
+}
+
+.footer-social p {
+    font-size: 14.5px;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 40px;
+    opacity: 0.6;
+    font-size: 13px;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================================================
+   Mobile navigation
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    header {
+        padding: 16px 6%;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 66px;
+        left: 0;
+        width: 100%;
+        background: rgba(5, 7, 13, 0.97);
+        backdrop-filter: blur(14px);
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .nav-menu a {
+        margin: 14px 0;
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content {
+        order: 2;
+    }
+
+    .hub-graphic {
+        order: 1;
+        width: 260px;
+        height: 260px;
+    }
+
+    .hero-actions, .hero-lead {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+        max-width: 100%;
+    }
+
+    .services h2, .about h2, .portfolio h2, .contact h2,
+    .process h2, .featured h2, .testimonials h2, .project-request h2 {
+        font-size: 28px;
+    }
+
+    section {
+        padding: 70px 6%;
+    }
+}
+

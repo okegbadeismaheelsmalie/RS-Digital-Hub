@@ -4,63 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You | RS Digital Hub</title>
+    <link rel="canonical" href="https://rs-digital-hub.netlify.app/thank-you.html">
+    <meta name="robots" content="noindex, follow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:Arial, Helvetica, sans-serif;
+        :root {
+            --bg-void: #05070d;
+            --bg-surface: #0c1120;
+            --glass: rgba(255, 255, 255, 0.045);
+            --glass-border: rgba(255, 255, 255, 0.09);
+            --text-primary: #eef1f8;
+            --text-muted: #a6adc0;
+            --accent-cyan: #2fd0ff;
+            --accent-blue: #3b7cff;
+            --accent-gold: #f0c463;
+            --grad-hub: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
         }
 
-        body{
-            background:linear-gradient(135deg,#0b1020,#111827);
-            color:white;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            padding:20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .card{
-            max-width:650px;
-            width:100%;
-            background:#1b263b;
-            padding:40px;
-            border-radius:20px;
-            text-align:center;
-            box-shadow:0 15px 40px rgba(0,0,0,.4);
+        body {
+            font-family: "Inter", Arial, sans-serif;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
         }
 
-        h1{
-            color:#00d084;
-            font-size:40px;
-            margin-bottom:20px;
+        body::before {
+            content: "";
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            top: -160px;
+            right: -160px;
+            background: radial-gradient(circle, rgba(47, 208, 255, 0.16), transparent 70%);
+            pointer-events: none;
         }
 
-        p{
-            font-size:18px;
-            line-height:1.8;
-            margin-bottom:15px;
-            color:#ddd;
+        .card {
+            max-width: 560px;
+            width: 100%;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(14px);
+            padding: 48px 40px;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeUp 0.8s cubic-bezier(.22, .8, .32, 1);
         }
 
-        a{
-            display:inline-block;
-            margin-top:25px;
-            padding:15px 35px;
-            background:#00d084;
-            color:#fff;
-            text-decoration:none;
-            border-radius:50px;
-            font-weight:bold;
-            transition:.3s;
+        .brand {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.06em;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 22px;
         }
 
-        a:hover{
-            transform:translateY(-3px);
-            background:#00b36b;
+        .check {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 22px;
+            border-radius: 50%;
+            background: rgba(45, 212, 191, 0.12);
+            border: 1px solid rgba(45, 212, 191, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+        }
+
+        h1 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        p strong {
+            color: var(--text-primary);
+        }
+
+        .countdown {
+            font-size: 14px;
+            margin-top: 18px;
+            color: var(--text-muted);
+        }
+
+        #countdown {
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        a.btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        a.btn-primary {
+            background: var(--accent-gold);
+            color: #17140a;
+        }
+
+        a.btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(240, 196, 99, 0.25);
+        }
+
+        a.btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(47, 208, 255, 0.5);
+        }
+
+        a.btn-outline:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(47, 208, 255, 0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card { animation: none; }
         }
     </style>
 
@@ -70,21 +173,29 @@
 
 <div class="card">
 
-    <h1>🎉 Thank You!</h1>
+    <p class="brand">👑 RS Digital Hub</p>
+
+    <div class="check" aria-hidden="true">✅</div>
+
+    <h1>Thank You!</h1>
 
     <p>Your project request has been received successfully.</p>
 
     <p>Our team at <strong>RS Digital Hub</strong> will review your request and contact you as soon as possible.</p>
 
     <p>We appreciate your trust in us. 🚀</p>
-    <p> 
-        Returning to the home page in 
-        <strong id="countdown">5</strong> seconds... 
+
+    <p class="countdown">
+        Returning to the home page in <span id="countdown">5</span> seconds…
     </p>
 
-    <a href="index.html">🏠 Back to Home</a>
+    <div class="actions">
+        <a class="btn btn-primary" href="index.html">🏠 Back to Home</a>
+        <a class="btn btn-outline" href="https://wa.me/2349117035399" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
+    </div>
 
 </div>
+
 <script>
     let seconds = 5;
 
@@ -107,3 +218,4 @@
 
 </body>
 </html>
+
