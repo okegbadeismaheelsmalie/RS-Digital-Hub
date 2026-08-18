@@ -176,20 +176,10 @@
                 <button type="button" class="ai-project-btn" onclick="RSAI.goToProjectForm()">🚀 Start Project Request</button>`;
             nextState = "normal";
 
-        } else if (chatState === "waitingForAIType") {
-            reply = `Excellent! 🚀 A <strong>${escapeHtml(rawMessage)}</strong> solution is something we can help you build.<br><br>
+        } else if (chatState === "waitingForAIType") {            reply = `Excellent! 🚀 A <strong>${escapeHtml(rawMessage)}</strong> solution is something we can help you build.<br><br>
                 What would you like to do next?<br>
                 <button type="button" class="ai-project-btn" onclick="RSAI.goToProjectForm()">🚀 Start a Project Request</button>
                 <button type="button" class="ai-project-btn" onclick="RSAI.askAnotherQuestion()">💬 Ask Another Question</button>`;
-            nextState = "normal";
-
-        } else if (chatState === "waitingForTrainingConfirm") {
-            if (message.includes("yes") || message.includes("start") || message.includes("sure")) {
-                reply = `Great! 🚀 Let's get your training request started.<br><br>
-                    <button type="button" class="ai-project-btn" onclick="RSAI.goToProjectForm()">🚀 Start Project Request</button>`;
-            } else {
-                reply = `No problem 😊 Feel free to ask me anything else about our training programs or other services.`;
-            }
             nextState = "normal";
 
         } else if (message.includes("hello") || message.includes("hi")) {
@@ -302,5 +292,4 @@
     window.quickReply = quickReply;
 
 })();
-
 

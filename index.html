@@ -25,6 +25,16 @@
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/sections.css">
     <link rel="stylesheet" href="css/chatbot.css">
+
+    <noscript>
+        <style>
+            /* Body fade-in and scroll-reveal both depend on JS to add the
+               "is-loaded"/"active" classes. Without this, a page with JS
+               disabled or blocked would stay invisible forever. */
+            body { opacity: 1 !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+        </style>
+    </noscript>
 </head>
 
 <body>
@@ -215,7 +225,7 @@
                     <p>
                         Modern mechanic business website with responsive design.
                     </p>
-                    <button class="primary-btn small" type="button">View Project</button>
+                    <a class="primary-btn small" href="#portfolio">View Project</a>
                 </div>
 
                 <div class="featured-card">
@@ -223,7 +233,7 @@
                     <p>
                         Fitness tracking web application for gym members.
                     </p>
-                    <button class="primary-btn small" type="button">View Project</button>
+                    <a class="primary-btn small" href="#portfolio">View Project</a>
                 </div>
 
                 <div class="featured-card">
@@ -231,7 +241,7 @@
                     <p>
                         AI-powered virtual assistant built for RS Digital Hub.
                     </p>
-                    <button class="primary-btn small" type="button">View Project</button>
+                    <a class="primary-btn small" href="#portfolio">View Project</a>
                 </div>
 
             </div>
@@ -447,19 +457,27 @@
 
                 </div>
 
-                <form class="contact-form">
+                <form class="contact-form"
+                      action="https://api.web3forms.com/submit"
+                      method="POST">
+
+                    <input type="hidden" name="access_key" value="69fb7deb-81ea-4993-bdc7-ecec3e9d5062">
+                    <input type="hidden" name="subject" value="New Contact Message - RS Digital Hub">
+                    <input type="hidden" name="redirect" value="https://rs-digital-hub.netlify.app/thank-you.html">
+                    <input type="hidden" name="from_name" value="RS Digital Hub Contact Form">
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
 
                     <label class="sr-only" for="cname">Your Name</label>
-                    <input type="text" id="cname" placeholder="Your Name">
+                    <input type="text" id="cname" name="name" placeholder="Your Name" required>
 
                     <label class="sr-only" for="cemail">Your Email</label>
-                    <input type="email" id="cemail" placeholder="Your Email">
+                    <input type="email" id="cemail" name="email" placeholder="Your Email" required>
 
                     <label class="sr-only" for="ctype">Project Type</label>
-                    <input type="text" id="ctype" placeholder="Project Type">
+                    <input type="text" id="ctype" name="project_type" placeholder="Project Type">
 
                     <label class="sr-only" for="cmessage">Message</label>
-                    <textarea id="cmessage" placeholder="Tell us about your project"></textarea>
+                    <textarea id="cmessage" name="message" placeholder="Tell us about your project" required></textarea>
 
                     <button class="primary-btn" type="submit">
                         Send Message 🚀
