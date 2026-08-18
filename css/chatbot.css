@@ -10,8 +10,8 @@
 
 .chat-button {
     position: fixed;
-    bottom: 100px;
-    right: 24px;
+    bottom: calc(100px + env(safe-area-inset-bottom));
+    right: calc(24px + env(safe-area-inset-right));
     width: 62px;
     height: 62px;
     background: var(--grad-hub);
@@ -22,6 +22,7 @@
     align-items: center;
     font-size: 28px;
     cursor: pointer;
+    touch-action: manipulation;
     box-shadow: 0 8px 26px rgba(47, 208, 255, 0.35);
     z-index: 1000;
     transition: transform 0.25s var(--ease);
@@ -33,11 +34,12 @@
 
 .chat-box {
     position: fixed;
-    bottom: 100px;
-    right: 24px;
+    bottom: calc(100px + env(safe-area-inset-bottom));
+    right: calc(24px + env(safe-area-inset-right));
     width: 350px;
     max-width: calc(100vw - 32px);
     max-height: min(560px, calc(100vh - 140px));
+    max-height: min(560px, calc(100dvh - 140px));
     background: var(--bg-surface);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
@@ -102,14 +104,15 @@
 }
 
 .chat-close {
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     border: none;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
     color: #fff;
     font-size: 14px;
     cursor: pointer;
+    touch-action: manipulation;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,6 +130,8 @@
     min-height: 260px;
     max-height: 340px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -184,7 +189,8 @@
 .chat-option-btn, .ai-project-btn {
     display: inline-block;
     margin: 8px 6px 0 0;
-    padding: 9px 14px;
+    padding: 10px 14px;
+    min-height: 40px;
     border-radius: 20px;
     border: 1px solid rgba(47, 208, 255, 0.4);
     background: rgba(47, 208, 255, 0.08);
@@ -192,6 +198,7 @@
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
+    touch-action: manipulation;
     transition: 0.25s var(--ease);
 }
 
@@ -238,6 +245,7 @@
 .quick-action button {
     flex: 1 1 auto;
     padding: 9px 10px;
+    min-height: 40px;
     border-radius: 20px;
     border: 1px solid var(--glass-border);
     background: var(--bg-surface-2);
@@ -245,6 +253,7 @@
     font-size: 12.5px;
     font-weight: 600;
     white-space: nowrap;
+    touch-action: manipulation;
     transition: 0.25s var(--ease);
 }
 
@@ -260,13 +269,14 @@
 
 .chat-input input {
     flex: 1;
+    min-width: 0;
     padding: 14px 16px;
     border: none;
     outline: none;
     background: var(--bg-surface);
     color: var(--text-primary);
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .chat-input input::placeholder {
@@ -275,12 +285,14 @@
 
 .chat-input button {
     padding: 0 20px;
+    min-width: 64px;
     border: none;
     border-radius: 0;
     background: var(--accent-gold);
     color: #17140a;
     font-weight: 700;
     font-size: 14px;
+    touch-action: manipulation;
     transition: background 0.25s var(--ease);
 }
 
@@ -295,14 +307,42 @@
 }
 
 @media (max-width: 480px) {
-    .chat-box {
-        right: 16px;
-        bottom: 88px;
-        width: calc(100vw - 32px);
-    }
     .chat-button {
-        right: 16px;
-        bottom: 88px;
+        right: calc(16px + env(safe-area-inset-right));
+        bottom: calc(88px + env(safe-area-inset-bottom));
+    }
+}
+
+/* Near-fullscreen chat on small phones and short/landscape viewports,
+   so the input and send button always stay visible above the keyboard. */
+@media (max-width: 480px), (max-height: 640px) {
+    body.chat-open {
+        overflow: hidden;
+    }
+
+    .chat-box {
+        top: env(safe-area-inset-top, 0px);
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        max-width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    .chat-header {
+        padding-top: calc(16px + env(safe-area-inset-top));
+    }
+
+    .chat-body {
+        max-height: none;
+    }
+
+    .chat-input {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 }
 
@@ -312,8 +352,8 @@
 
 .whatsapp-float {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    right: calc(24px + env(safe-area-inset-right));
     width: 60px;
     height: 60px;
     background: #25d366;
@@ -324,6 +364,7 @@
     align-items: center;
     font-size: 30px;
     text-decoration: none;
+    touch-action: manipulation;
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
     z-index: 999;
     transition: transform 0.25s var(--ease);
@@ -338,8 +379,9 @@
         width: 52px;
         height: 52px;
         font-size: 26px;
-        right: 16px;
-        bottom: 16px;
+        right: calc(16px + env(safe-area-inset-right));
+        bottom: calc(16px + env(safe-area-inset-bottom));
     }
 }
+
 

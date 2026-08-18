@@ -24,7 +24,10 @@
         chatBox.classList.add("open");
         chatBox.setAttribute("aria-hidden", "false");
         chatBtn.setAttribute("aria-expanded", "true");
-        userInput.focus();
+        // Locks background scroll only where CSS makes the chat go
+        // near-fullscreen (small phones / short viewports).
+        document.body.classList.add("chat-open");
+        userInput.focus({ preventScroll: true });
     }
 
     function closeChat() {
@@ -32,6 +35,7 @@
         chatBox.classList.remove("open");
         chatBox.setAttribute("aria-hidden", "true");
         chatBtn.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("chat-open");
     }
 
     chatBtn.onclick = () => {
@@ -43,6 +47,13 @@
     if (chatClose) {
         chatClose.onclick = closeChat;
     }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && chatBox.classList.contains("open")) {
+            closeChat();
+            chatBtn.focus();
+        }
+    });
 
     const heroAiBtn = document.getElementById("heroAiBtn");
     if (heroAiBtn) {
@@ -291,4 +302,5 @@
     window.quickReply = quickReply;
 
 })();
+
 
