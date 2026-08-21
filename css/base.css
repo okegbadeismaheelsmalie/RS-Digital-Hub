@@ -432,6 +432,38 @@ button {
     animation: fadeUp 1s var(--ease);
 }
 
+/* Tablet stacking point — matches the 900px nav breakpoint in
+   sections.css so the whole header/hero region changes together at one
+   consistent width. Below ~894px the hub graphic's own column can become
+   narrower than the graphic's fluid max-width (340px), causing it to
+   overflow and get clipped by .hero's overflow:hidden. Stacking to a
+   single column at 900px keeps the hub graphic centered and fully
+   visible on real tablet widths instead of squeezing a two-column grid
+   into a space it doesn't fit. */
+@media (max-width: 900px) {
+    .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content {
+        order: 2;
+    }
+
+    .hub-graphic {
+        order: 1;
+    }
+
+    .hero-actions, .hero-lead {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+}
+
 .eyebrow {
     font-family: var(--font-mono);
     font-size: 12.5px;

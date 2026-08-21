@@ -207,6 +207,78 @@
     color: #05131a;
 }
 
+/* Quick-reply buttons — the button-tree navigation system. A dedicated
+   flex-wrap container so spacing/sizing is independent of the older
+   inline chat-option-btn placement, and stays clean on small screens. */
+.quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.quick-reply-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 16px;
+    min-height: 42px;
+    border-radius: 22px;
+    border: 1px solid rgba(240, 196, 99, 0.35);
+    background: rgba(240, 196, 99, 0.08);
+    color: var(--accent-gold);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease), transform 0.15s var(--ease);
+}
+
+.quick-reply-btn:hover {
+    background: var(--accent-gold);
+    color: #17140a;
+    border-color: var(--accent-gold);
+    transform: translateY(-1px);
+}
+
+.quick-reply-btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.quick-reply-btn:focus-visible {
+    outline: 2px solid var(--accent-gold);
+    outline-offset: 2px;
+}
+
+.quick-reply-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .quick-reply-btn {
+        transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+    .quick-reply-btn:hover, .quick-reply-btn:active {
+        transform: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .quick-reply-btn {
+        font-size: 12.5px;
+        padding: 10px 14px;
+        flex: 1 1 auto;
+        min-width: calc(50% - 4px);
+    }
+}
+
 .typing {
     display: flex;
     gap: 5px;
@@ -383,5 +455,3 @@
         bottom: calc(16px + env(safe-area-inset-bottom));
     }
 }
-
-

@@ -41,9 +41,10 @@ if (menuBtn && navMenu) {
         }
     });
 
-    // Reset mobile-only state if the viewport grows into desktop size.
+    // Reset mobile-only state once the viewport crosses into the
+    // horizontal-nav range (matches the 900px breakpoint in sections.css).
     window.addEventListener("resize", () => {
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > 900) {
             closeNav();
         }
     });
@@ -139,4 +140,3 @@ if (backToTop) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
-

@@ -351,7 +351,6 @@ section {
     }
 }
 
-
 /* ==========================================================================
    Portfolio
    ========================================================================== */
@@ -622,7 +621,13 @@ footer h3 {
    Mobile navigation
    ========================================================================== */
 
-@media (max-width: 768px) {
+/* Matches the hero's tablet breakpoint (base.css) so the whole header
+   region changes character at one consistent width rather than two
+   different thresholds. Verified the full horizontal nav (logo + 5
+   links + fluid padding) needs ~730px at worst, so it comfortably fits
+   real tablet widths up to 900px — below that it becomes the fixed,
+   closed-by-default hamburger menu exactly as required. */
+@media (max-width: 900px) {
 
     .header-inner {
         padding: 16px var(--space-section-x);
@@ -662,32 +667,5 @@ footer h3 {
     .nav-menu.active {
         display: flex;
     }
-
-    .hero-inner {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .hero-content {
-        order: 2;
-    }
-
-    .hub-graphic {
-        order: 1;
-    }
-
-    .hero-actions, .hero-lead {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .hero-actions {
-        justify-content: center;
-    }
-
-    section {
-        padding: var(--space-section-y) var(--space-section-x);
-    }
 }
-
 
