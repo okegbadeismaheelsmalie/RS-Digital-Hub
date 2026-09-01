@@ -63,33 +63,52 @@ export default async (request) => {
       "Authorization": `Bearer ${supabaseSecret}`
     };
 
-    // ---------------------------------------------------------
-    // Find the selected service
-    // ---------------------------------------------------------
+   // Find the selected service
+const serviceResponse = await fetch(
+`${supabaseUrl}/rest/v1/services?select=id,name`,
+{
+method: "GET",
+headers
+}
+);
+const services = await serviceResponse.json();
+if (!serviceResponse.ok || !Array.isArray(services)) {
+console.error("Supabase service lookup error:", services);
+return new Response(
+JSON.stringify({
+error: "Could not load services from the database."
+}),
+{
+status: 500,
+headers: { "Content-Type": "application/json"}
+}
+);
+}
+// Match service safely
+const selectedService = String(service)
+.trim()
+.toLowerCase();
+const matchedService = services.find((item) =>{
+return (
+typeof item.name === "string"&&
+item.name.trim().toLowerCase() === selectedService
+);
+});
+if (!matchedService) {
+console.error("Service not found:", service);
+console.error("Available services:", services);
+return new Response(
+JSON.stringify({
+error: `The selected service "${service}"could not be found.`
+}),
+{
+status: 404,
+headers: { "Content-Type": "application/json"}
+}
+);
+}
+const serviceId = matchedService.id;
 
-    const serviceResponse = await fetch(
-      `${supabaseUrl}/rest/v1/services?name=eq.${encodeURIComponent(service)}&select=id,name`,
-      {
-        method: "GET",
-        headers
-      }
-    );
-
-    const services = await serviceResponse.json();
-
-    if (!serviceResponse.ok || !Array.isArray(services) || services.length === 0) {
-      return new Response(
-        JSON.stringify({
-          error: "The selected service could not be found."
-        }),
-        {
-          status: 404,
-          headers: { "Content-Type": "application/json" }
-        }
-      );
-    }
-
-    const serviceId = services[0].id;
 
     // ---------------------------------------------------------
     // Generate next project code
