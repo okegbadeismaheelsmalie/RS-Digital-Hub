@@ -140,3 +140,76 @@ if (backToTop) {
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
+/* --------------------------------------------------------------------
+Project Request — Netlify Function
+-------------------------------------------------------------------- */
+
+const projectForm = document.getElementById("projectForm");
+
+if (projectForm) {
+projectForm.addEventListener("submit", async (event) => {
+event.preventDefault();
+
+    const submitButton = projectForm.querySelector('button[type="submit"]');
+
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending... ⏳";
+    }
+
+    try {
+        const formData = new FormData(projectForm);
+
+        const projectData = {
+            name: formData.get("name"),
+            email: formData.get("email"),
+            phone: formData.get("phone"),
+            service: formData.get("service"),
+            budget: formData.get("budget") || null,
+            deadline: formData.get("deadline") || null,
+            description: formData.get("message")
+        };
+
+        const response = await fetch("/.netlify/functions/create-project", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(projectData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                result.error || "Project request could not be submitted."
+            );
+        }
+
+        console.log("Project created successfully:", result);
+
+        alert(
+            `Project submitted successfully! 🚀\n\nProject Code: ${
+                result.project?.project_code || "Pending"
+            }`
+        );
+
+        projectForm.reset();
+
+    } catch (error) {
+        console.error("Project submission error:", error);
+
+        alert(
+            error.message ||
+            "Something went wrong while submitting your project. Please try again."
+        );
+
+    } finally {
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Submit Request 🚀";
+        }
+    }
+});
+
+}
