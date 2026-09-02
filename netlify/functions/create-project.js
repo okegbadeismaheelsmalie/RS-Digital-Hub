@@ -72,18 +72,22 @@ headers
 }
 );
 const services = await serviceResponse.json();
-if (!serviceResponse.ok || !Array.isArray(services)) {
-console.error("Supabase service lookup error:", services);
-return new Response(
-JSON.stringify({
-error: "Could not load services from the database."
-}),
-{
-status: 500,
-headers: { "Content-Type": "application/json"}
-}
-);
-}
+if (!serviceResponse.ok || !
+  Array.isArray(services)) {
+    console.error("Supabase service lookup error:", services);
+    return new Response(
+      JSON.stringify({
+        error: "Supabase service lookup failed.",
+        supabase_status:
+        serviceResponse.status,
+        supabase_response: services
+      }),
+      {
+        status:500,
+        headers: { "Content-Type": "application/json" }
+      }
+    );
+  }
 // Match service safely
 const selectedService = String(service)
 .trim()
