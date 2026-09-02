@@ -179,14 +179,20 @@ event.preventDefault();
         });
 
         const result = await response.json();
-
         if (!response.ok) {
-            throw new Error(
-                result.error || "Project request could not be submitted."
-            );
-        }
+    let errorMessage = result.error || "Project request could not be submitted.";
 
-        console.log("Project created successfully:", result);
+    if (result.supabase_status) {
+        errorMessage += `\n\nSupabase Status: ${result.supabase_status}`;
+    }
+
+    if (result.supabase_response) {
+        errorMessage += `\n\nSupabase Response: ${JSON.stringify(result.supabase_response)}`;
+    }
+
+    throw new Error(errorMessage);
+}
+
 
         alert(
             `Project submitted successfully! 🚀\n\nProject Code: ${
