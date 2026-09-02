@@ -193,15 +193,14 @@ event.preventDefault();
     throw new Error(errorMessage);
 }
 
+    const projectCode = result.project?.project_code ||"";
 
-        alert(
-            `Project submitted successfully! 🚀\n\nProject Code: ${
-                result.project?.project_code || "Pending"
-            }`
-        );
-
-        projectForm.reset();
-
+    if (projectCode) {
+        window.location.href = 
+        `thank-you.html?project=${encodeURIComponent(projectCode)}`;
+    } else {
+        window.location.href = "thank-you.html";
+    }
     } catch (error) {
         console.error("Project submission error:", error);
 

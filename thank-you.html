@@ -1,221 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You | RS Digital Hub</title>
-    <link rel="canonical" href="https://rs-digital-hub.netlify.app/thank-you.html">
-    <meta name="robots" content="noindex, follow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Project Request Received | RS Digital Hub</title>
 
-    <style>
-        :root {
-            --bg-void: #05070d;
-            --bg-surface: #0c1120;
-            --glass: rgba(255, 255, 255, 0.045);
-            --glass-border: rgba(255, 255, 255, 0.09);
-            --text-primary: #eef1f8;
-            --text-muted: #a6adc0;
-            --accent-cyan: #2fd0ff;
-            --accent-blue: #3b7cff;
-            --accent-gold: #f0c463;
-            --grad-hub: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top, #172554 0%, #0f172a 45%, #020617 100%);
+      color: #ffffff;
+    }
 
-        body {
-            font-family: "Inter", Arial, sans-serif;
-            background: var(--bg-void);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-        }
+    .thank-you-wrapper {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-        body::before {
-            content: "";
-            position: absolute;
-            width: 480px;
-            height: 480px;
-            top: -160px;
-            right: -160px;
-            background: radial-gradient(circle, rgba(47, 208, 255, 0.16), transparent 70%);
-            pointer-events: none;
-        }
+    .thank-you-card {
+      width: 100%;
+      max-width: 600px;
+      padding: 40px 28px;
+      text-align: center;
 
-        .card {
-            max-width: 560px;
-            width: 100%;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(14px);
-            padding: 48px 40px;
-            border-radius: 24px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
-            animation: fadeUp 0.8s cubic-bezier(.22, .8, .32, 1);
-        }
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 22px;
 
-        .brand {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: 15px;
-            letter-spacing: 0.06em;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            margin-bottom: 22px;
-        }
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.45);
+    }
 
-        .check {
-            width: 78px;
-            height: 78px;
-            margin: 0 auto 22px;
-            border-radius: 50%;
-            background: rgba(45, 212, 191, 0.12);
-            border: 1px solid rgba(45, 212, 191, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 34px;
-        }
+    .thank-you-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
 
-        h1 {
-            font-family: "Space Grotesk", sans-serif;
-            font-size: 32px;
-            margin-bottom: 18px;
-        }
+    .thank-you-title {
+      margin: 0 0 14px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
 
-        p {
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 12px;
-            color: var(--text-muted);
-        }
+    .thank-you-message {
+      margin: 0 auto 28px;
+      max-width: 480px;
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.7;
+    }
 
-        p strong {
-            color: var(--text-primary);
-        }
+    .code-box {
+      margin: 25px 0;
+      padding: 22px;
 
-        .countdown {
-            font-size: 14px;
-            margin-top: 18px;
-            color: var(--text-muted);
-        }
+      background: rgba(2, 6, 23, 0.75);
+      border: 1px dashed #38bdf8;
+      border-radius: 15px;
+    }
 
-        #countdown {
-            color: var(--accent-cyan);
-            font-weight: 700;
-        }
+    .code-label {
+      display: block;
+      margin-bottom: 8px;
 
-        .actions {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 28px;
-        }
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
 
-        a.btn {
-            display: inline-block;
-            padding: 14px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
+      color: #94a3b8;
+    }
 
-        a.btn-primary {
-            background: var(--accent-gold);
-            color: #17140a;
-        }
+    .code-value {
+      font-family: monospace;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #38bdf8;
+    }
 
-        a.btn-primary:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(240, 196, 99, 0.25);
-        }
+    .code-instruction {
+      margin: 12px 0 0;
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
-        a.btn-outline {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid rgba(47, 208, 255, 0.5);
-        }
+    .actions-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
 
-        a.btn-outline:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(47, 208, 255, 0.2);
-            border-color: var(--accent-cyan);
-        }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+      min-width: 150px;
+      padding: 13px 20px;
 
-        @media (prefers-reduced-motion: reduce) {
-            .card { animation: none; }
-        }
-    </style>
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
 
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 480px) {
+      .thank-you-wrapper {
+        padding: 16px;
+      }
+
+      .thank-you-card {
+        padding: 32px 20px;
+      }
+
+      .thank-you-title {
+        font-size: 27px;
+      }
+
+      .code-value {
+        font-size: 28px;
+      }
+
+      .actions-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
+  <main class="thank-you-wrapper">
 
-    <p class="brand">👑 RS Digital Hub</p>
+    <section class="thank-you-card">
 
-    <div class="check" aria-hidden="true">✅</div>
+      <div class="thank-you-icon">
+        🎉
+      </div>
 
-    <h1>Thank You!</h1>
+      <h1 class="thank-you-title">
+        Project Request Received!
+      </h1>
 
-    <p>Your project request has been received successfully.</p>
+      <p class="thank-you-message">
+        Your project request has been successfully submitted to
+        <strong>RS Digital Hub</strong>.
+        Our team will review your request and get back to you.
+      </p>
 
-    <p>Our team at <strong>RS Digital Hub</strong> will review your request and contact you as soon as possible.</p>
+      <div class="code-box">
 
-    <p>We appreciate your trust in us. 🚀</p>
+        <span class="code-label">
+          Your Project Code
+        </span>
 
-    <p class="countdown">
-        Returning to the home page in <span id="countdown">5</span> seconds…
-    </p>
+        <div
+          id="projectCodeDisplay"
+          class="code-value"
+        >
+          ---
+        </div>
 
-    <div class="actions">
-        <a class="btn btn-primary" href="index.html">🏠 Back to Home</a>
-        <a class="btn btn-outline" href="https://wa.me/2349117035399" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>
-    </div>
+        <p class="code-instruction">
+          Please save this code. You can use it when contacting
+          RS Digital Hub about your project.
+        </p>
 
-</div>
+      </div>
 
-<script>
-    let seconds = 5;
+      <div class="actions-group">
 
-    const countdown = document.getElementById("countdown");
+        <a
+          href="index.html"
+          class="btn btn-primary"
+        >
+          Back to Home
+        </a>
 
-    const timer = setInterval(() => {
-        seconds--;
+        <a
+          href="index.html#contact"
+          class="btn btn-secondary"
+        >
+          Contact Us
+        </a>
 
-        if (countdown) {
-            countdown.textContent = seconds;
-        }
+      </div>
 
-        if (seconds <= 0) {
-            clearInterval(timer);
-            window.location.href = "index.html";
-        }
+    </section>
 
-    }, 1000);
-</script>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      const params = new URLSearchParams(
+        window.location.search
+      );
+
+      const projectCode = params.get("project");
+
+      const codeDisplay =
+        document.getElementById("projectCodeDisplay");
+
+      if (projectCode && projectCode.trim() !== "") {
+
+        codeDisplay.textContent =
+          projectCode.trim();
+
+      } else {
+
+        codeDisplay.textContent = "N/A";
+
+      }
+
+    });
+  </script>
 
 </body>
 </html>
-
