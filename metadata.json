@@ -1,0 +1,8 @@
+{
+  "name": "RS Digital Hub",
+  "description": "RS Digital Hub builds premium websites, graphic design, AI solutions, automation and computer training — led by Royal Smalie.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

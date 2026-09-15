@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Portal | RS Digital Hub 👑</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230c1120'/%3E%3Ctext x='50' y='66' font-size='58' text-anchor='middle'%3E%F0%9F%91%91%3C/text%3E%3C/svg%3E">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="is-loaded">
+
+  <div class="auth-wrapper">
+    <div class="auth-container">
+      
+      <div class="auth-card">
+        <div class="auth-header">
+          <a href="/" class="auth-brand" id="authBrandLink">
+            <span>👑</span> RS Digital Hub
+          </a>
+          <h1 class="auth-title" id="authHeading">Welcome Back</h1>
+          <p class="auth-subtitle" id="authSubheading">Sign in to your client dashboard to track your projects.</p>
+        </div>
+
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab active" id="tabLogin" role="tab" aria-selected="true">Sign In</button>
+          <button type="button" class="auth-tab" id="tabSignup" role="tab" aria-selected="false">Create Account</button>
+        </div>
+
+        <div id="authAlert" class="auth-alert" role="alert"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form" method="POST">
+          <div class="form-group">
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+          </div>
+
+          <div class="form-actions">
+            <label class="form-checkbox">
+              <input type="checkbox" id="loginRemember" checked>
+              <span>Remember me</span>
+            </label>
+            <a href="#forgot" id="forgotPasswordLink" class="forgot-link">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+            Sign In to Portal
+          </button>
+        </form>
+
+        <!-- Signup Form (Strictly Customer Role) -->
+        <form id="signupForm" class="auth-form" style="display: none;" method="POST">
+          <div class="form-group">
+            <label for="signupName">Full Name</label>
+            <input type="text" id="signupName" placeholder="e.g. Adebayo Balogun" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="signupEmail">Email Address</label>
+            <input type="email" id="signupEmail" placeholder="you@example.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="signupPhone">WhatsApp Phone Number</label>
+            <input type="tel" id="signupPhone" placeholder="+234 800 000 0000" autocomplete="tel">
+            <span class="hint">Used for project status alerts and WhatsApp updates</span>
+          </div>
+
+          <div class="form-group">
+            <label for="signupPassword">Password</label>
+            <input type="password" id="signupPassword" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password">
+          </div>
+
+          <div class="form-actions">
+            <label class="form-checkbox">
+              <input type="checkbox" id="signupAgree" required>
+              <span>I agree to project communication terms</span>
+            </label>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="signupSubmitBtn">
+            Create Customer Account
+          </button>
+        </form>
+
+        <!-- Forgot Password Form -->
+        <form id="forgotForm" class="auth-form" style="display: none;" method="POST">
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px;">
+            Enter your account email address and we'll send you password recovery instructions.
+          </p>
+
+          <div class="form-group">
+            <label for="forgotEmail">Email Address</label>
+            <input type="email" id="forgotEmail" placeholder="you@example.com" required>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="forgotSubmitBtn">
+            Send Reset Instructions
+          </button>
+
+          <div style="text-align: center; margin-top: 10px;">
+            <a href="#login" id="backToLoginLink" class="forgot-link">← Back to sign in</a>
+          </div>
+        </form>
+
+        <div class="auth-footer">
+          <p id="authFooterText">
+            Looking for RS Digital Hub services? <a href="/">Visit Homepage</a>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script>
+    (function () {
+      const tabLogin = document.getElementById('tabLogin');
+      const tabSignup = document.getElementById('tabSignup');
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const forgotForm = document.getElementById('forgotForm');
+      const authHeading = document.getElementById('authHeading');
+      const authSubheading = document.getElementById('authSubheading');
+      const authAlert = document.getElementById('authAlert');
+      const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+      const backToLoginLink = document.getElementById('backToLoginLink');
+
+      // Check URL parameters for redirect or initial tab
+      const params = new URLSearchParams(window.location.search);
+      const redirectTarget = params.get('redirect') || '/dashboard';
+      const initialTab = params.get('tab') || 'login';
+
+      function showAlert(msg, isSuccess = false) {
+        authAlert.textContent = msg;
+        authAlert.className = 'auth-alert ' + (isSuccess ? 'success' : 'error');
+        authAlert.style.display = 'block';
+      }
+
+      function hideAlert() {
+        authAlert.style.display = 'none';
+      }
+
+      function switchTab(tab) {
+        hideAlert();
+        if (tab === 'signup') {
+          tabSignup.classList.add('active');
+          tabLogin.classList.remove('active');
+          signupForm.style.display = 'flex';
+          loginForm.style.display = 'none';
+          forgotForm.style.display = 'none';
+          authHeading.textContent = 'Create Customer Account';
+          authSubheading.textContent = 'Track your projects, approve estimates and submit payments.';
+        } else if (tab === 'forgot') {
+          tabSignup.classList.remove('active');
+          tabLogin.classList.remove('active');
+          signupForm.style.display = 'none';
+          loginForm.style.display = 'none';
+          forgotForm.style.display = 'flex';
+          authHeading.textContent = 'Reset Password';
+          authSubheading.textContent = 'Recover access to your RS Digital Hub account.';
+        } else {
+          tabLogin.classList.add('active');
+          tabSignup.classList.remove('active');
+          loginForm.style.display = 'flex';
+          signupForm.style.display = 'none';
+          forgotForm.style.display = 'none';
+          authHeading.textContent = 'Welcome Back';
+          authSubheading.textContent = 'Sign in to your client dashboard to track your projects.';
+        }
+      }
+
+      tabLogin.onclick = () => switchTab('login');
+      tabSignup.onclick = () => switchTab('signup');
+      forgotPasswordLink.onclick = (e) => { e.preventDefault(); switchTab('forgot'); };
+      backToLoginLink.onclick = (e) => { e.preventDefault(); switchTab('login'); };
+
+      if (initialTab === 'signup') switchTab('signup');
+
+      // Handle Login
+      loginForm.onsubmit = async (e) => {
+        e.preventDefault();
+        hideAlert();
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const remember = document.getElementById('loginRemember').checked;
+        const btn = document.getElementById('loginSubmitBtn');
+
+        btn.disabled = true;
+        btn.textContent = 'Signing in... ⏳';
+
+        try {
+          const user = await window.RSAuth.login(email, password, remember);
+          showAlert('Signed in successfully! Redirecting...', true);
+          setTimeout(() => {
+            if (user.role === 'admin') {
+              window.location.href = '/admin';
+            } else {
+              window.location.href = redirectTarget;
+            }
+          }, 600);
+        } catch (err) {
+          showAlert(err.message || 'Login failed. Please check your credentials.');
+          btn.disabled = false;
+          btn.textContent = 'Sign In to Portal';
+        }
+      };
+
+      // Handle Signup
+      signupForm.onsubmit = async (e) => {
+        e.preventDefault();
+        hideAlert();
+        const fullName = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim();
+        const phone = document.getElementById('signupPhone').value.trim();
+        const password = document.getElementById('signupPassword').value;
+        const btn = document.getElementById('signupSubmitBtn');
+
+        btn.disabled = true;
+        btn.textContent = 'Creating account... ⏳';
+
+        try {
+          const user = await window.RSAuth.signup(fullName, email, password, phone);
+          showAlert('Account created successfully! Redirecting to your dashboard...', true);
+          setTimeout(() => {
+            window.location.href = redirectTarget;
+          }, 800);
+        } catch (err) {
+          showAlert(err.message || 'Signup failed. Please try again.');
+          btn.disabled = false;
+          btn.textContent = 'Create Customer Account';
+        }
+      };
+
+      // Handle Forgot Password
+      forgotForm.onsubmit = (e) => {
+        e.preventDefault();
+        const email = document.getElementById('forgotEmail').value.trim();
+        showAlert(`Password reset instructions have been sent to ${email} if registered.`, true);
+      };
+    })();
+  </script>
+</body>
+</html>

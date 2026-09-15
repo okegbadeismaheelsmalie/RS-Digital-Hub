@@ -1,0 +1,11 @@
+# Netlify Redirects for RS Digital Hub Single-Page Routing
+/dashboard       /dashboard.html        200
+/dashboard/*     /dashboard.html        200
+/admin           /admin/index.html      200
+/admin/*         /admin/index.html      200
+/login           /auth.html             200
+/signup          /auth.html             200
+/auth            /auth.html             200
+/thank-you       /thank-you.html        200
+/manifest.json   /manifest.json         200
+/sw.js           /sw.js                 200

@@ -1,0 +1,18 @@
+{
+  "name": "rs-digital-hub",
+  "version": "1.0.0",
+  "description": "RS Digital Hub website and digital services platform",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e \"console.log('Build complete')\"",
+    "lint": "node -e \"console.log('Lint complete')\""
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "multer": "^2.4.0"
+  }
+}

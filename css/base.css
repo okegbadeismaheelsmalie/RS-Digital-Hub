@@ -608,3 +608,115 @@ button {
     transform: translateY(0);
 }
 
+/* ==========================================================================
+   PWA UI Components (Offline Banner, iOS Modal, Install Button)
+   ========================================================================== */
+
+.pwa-offline-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #e11d48;
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px 16px;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+    animation: slideDown 0.3s var(--ease);
+}
+
+.pwa-offline-banner.visible {
+    display: block;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+.pwa-install-btn {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #f0c463, #d4a337);
+    color: #0a0e17;
+    font-weight: 600;
+    font-size: 0.88rem;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 14px rgba(240, 196, 99, 0.25);
+}
+
+.pwa-install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240, 196, 99, 0.4);
+}
+
+.pwa-ios-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 14, 23, 0.85);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 10000;
+}
+
+.pwa-ios-modal.active {
+    display: flex;
+}
+
+.pwa-ios-modal-content {
+    background: #111827;
+    border: 1px solid rgba(240, 196, 99, 0.25);
+    border-radius: 16px;
+    max-width: 440px;
+    width: 100%;
+    padding: 24px;
+    color: #e2e8f0;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+}
+
+.pwa-ios-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.pwa-ios-modal-header h3 {
+    margin: 0;
+    color: #f0c463;
+    font-size: 1.2rem;
+}
+
+.pwa-ios-close-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.pwa-ios-modal-content ol {
+    margin: 16px 0 0 0;
+    padding-left: 20px;
+    color: #94a3b8;
+    line-height: 1.8;
+}
+
+.pwa-ios-modal-content li strong {
+    color: #ffffff;
+}
+
+

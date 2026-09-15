@@ -1,0 +1,363 @@
+/* ==========================================================================
+   RS Digital Hub — estimator.css
+   Customer-Facing Project Cost Estimator
+   ========================================================================== */
+
+.estimator-section {
+  padding: var(--space-section-y) var(--space-section-x);
+  background: var(--bg-void, #05070d);
+  position: relative;
+}
+
+.estimator-container {
+  max-width: 1100px;
+  margin: 40px auto 0;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .estimator-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.estimator-card {
+  background: var(--bg-surface, #0c1120);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-lg, 16px);
+  padding: 32px 28px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.estimator-step {
+  margin-bottom: 28px;
+}
+
+.estimator-step-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #eef1f8);
+  margin-bottom: 14px;
+}
+
+.estimator-step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+}
+
+/* Service Selector Chips */
+.service-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.service-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-primary, #eef1f8);
+  text-align: left;
+}
+
+.service-chip:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.service-chip.active {
+  background: rgba(59, 130, 246, 0.12);
+  border-color: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.service-chip-icon {
+  font-size: 20px;
+}
+
+.service-chip-name {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* Tier Radios */
+.tier-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.tier-card {
+  padding: 18px 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tier-card:hover {
+  border-color: rgba(59, 130, 246, 0.35);
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.tier-card.active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.tier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.tier-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #eef1f8);
+}
+
+.tier-price {
+  font-family: var(--font-mono, monospace);
+  font-size: 14px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.tier-desc {
+  font-size: 12.5px;
+  color: var(--text-muted, #a6adc0);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+.tier-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tier-features-list li {
+  font-size: 12px;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tier-features-list li::before {
+  content: "✓";
+  color: #10b981;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* Add-ons Checkboxes */
+.addon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addon-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.addon-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.addon-item.selected {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.addon-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.addon-left input[type="checkbox"] {
+  accent-color: #3b82f6;
+  width: 16px;
+  height: 16px;
+}
+
+.addon-name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-primary, #eef1f8);
+}
+
+.addon-price {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  color: #93c5fd;
+}
+
+/* Estimator Summary Side Card */
+.estimator-summary-card {
+  position: sticky;
+  top: 100px;
+  background: var(--bg-surface-2, #101729);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--radius-lg, 16px);
+  padding: 28px 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.summary-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.summary-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #eef1f8);
+  margin-bottom: 4px;
+}
+
+.summary-service-name {
+  font-size: 13px;
+  color: var(--text-muted, #a6adc0);
+  margin-bottom: 20px;
+}
+
+.summary-price-box {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed rgba(59, 130, 246, 0.4);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.summary-price-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-muted, #a6adc0);
+  margin-bottom: 4px;
+  letter-spacing: 0.05em;
+}
+
+.summary-price-val {
+  font-family: var(--font-mono, monospace);
+  font-size: 28px;
+  font-weight: 800;
+  color: #2fd0ff;
+}
+
+.summary-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.summary-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 16px;
+  font-size: 13px;
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted, #a6adc0);
+}
+
+.breakdown-row.total {
+  color: var(--text-primary, #eef1f8);
+  font-weight: 700;
+  font-size: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.estimator-cta-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  font-size: 14.5px;
+  font-weight: 700;
+  background: var(--grad-hub, linear-gradient(135deg, #3b7cff, #2fd0ff));
+  color: #05070d;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+}
+
+.estimator-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(47, 208, 255, 0.3);
+}
+
+.estimator-note {
+  font-size: 11.5px;
+  color: #64748b;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.4;
+}

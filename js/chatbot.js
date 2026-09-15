@@ -15,8 +15,8 @@
     const DEV_MODE = false;
 
     const AIServiceConfig = {
-        backendURL: null,
-        requestTimeout: 5000,
+        backendURL: "/.netlify/functions/ai-chat",
+        requestTimeout: 8000,
         hasBackend: function() {
             return this.backendURL !== null && this.backendURL.trim() !== "";
         }
@@ -33,6 +33,7 @@
        --------------------------------------------------------------- */
 
     function escapeHtmlSafe(str) {
+        if (str === null || str === undefined) return "";
         return String(str)
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
@@ -1115,11 +1116,67 @@ ibly cover in one go.
             // Otherwise it's a leaf option.
             const opt = optionIndex[actionId];
             if (!opt) {
+                const lower = String(actionId || "").toLowerCase();
+                if (lower.includes("estimator") || lower.includes("quote")) {
+                    const est = document.getElementById("estimator");
+                    if (est) est.scrollIntoView({ behavior: "smooth" });
+                    return {
+                        userLabel: "📐 Project Estimator",
+                        response: {
+                            text: "I've navigated you to our interactive Project Cost & Timeline Estimator on this page! You can select features and get an immediate, transparent estimate.",
+                            quickReplies: [
+                                { id: "main_menu", label: "🏠 Main Menu" },
+                                { id: "ask_else", label: "💬 Ask Something Else" }
+                            ]
+                        }
+                    };
+                }
+                if (lower.includes("start") || lower.includes("submit project")) {
+                    return {
+                        userLabel: "🚀 Start My Project",
+                        response: {
+                            text: "Ready to launch your project? Which service would you like to build with us?",
+                            quickReplies: [
+                                { id: "srv_web", label: "🌐 Website Development" },
+                                { id: "srv_graphic", label: "🎨 Graphic Design" },
+                                { id: "srv_ai", label: "🤖 AI Solutions" },
+                                { id: "main_menu", label: "🏠 Main Menu" }
+                            ]
+                        }
+                    };
+                }
+                if (lower.includes("royal") || lower.includes("whatsapp") || lower.includes("contact")) {
+                    return {
+                        userLabel: "👑 Talk to Royal Smalie",
+                        response: {
+                            text: "You can reach Royal Smalie directly on WhatsApp at <strong>+234 911 703 5399</strong> or via email at <strong>okegbadeismaheelsmalie@gmail.com</strong>.",
+                            actions: [{ type: "button", text: "💬 Open WhatsApp Chat", callback: "goToContact" }],
+                            quickReplies: [
+                                { id: "main_menu", label: "🏠 Main Menu" }
+                            ]
+                        }
+                    };
+                }
+                if (lower.includes("login") || lower.includes("portal") || lower.includes("dashboard")) {
+                    return {
+                        userLabel: "🔐 Customer Portal",
+                        response: {
+                            text: "You can access your project dashboard, invoices, and payments in our client portal.",
+                            actions: [{ type: "button", text: "Go to Portal ↗", callback: "goToProjectForm" }],
+                            quickReplies: [
+                                { id: "main_menu", label: "🏠 Main Menu" }
+                            ]
+                        }
+                    };
+                }
                 return {
                     userLabel: actionId,
                     response: {
-                        text: "Sorry, I couldn't process that. Let's try again.",
-                        actions: [{ type: "button", text: "🔄 Start Over", callback: "startOver" }]
+                        text: `You selected <strong>${escapeHtmlSafe(actionId)}</strong>. Tell me a bit more about what you need!`,
+                        quickReplies: [
+                            { id: "main_menu", label: "🏠 Main Menu" },
+                            { id: "ask_else", label: "💬 Ask Another Question" }
+                        ]
                     }
                 };
             }
@@ -1541,14 +1598,26 @@ ibly cover in one go.
     }
 
     function createQuickReplies(options) {
-        return (options || []).map(o => ({ id: o.id, label: o.label }));
+        return (options || []).map(o => {
+            if (typeof o === "string") {
+                return { id: o, label: o };
+            }
+            const id = o && (o.id !== undefined ? o.id : (o.label || o.text || ""));
+            const label = o && (o.label !== undefined ? o.label : (o.text || o.id || ""));
+            return { id: String(id || ""), label: String(label || "") };
+        });
     }
 
     function renderQuickReplies(quickReplies) {
         if (!quickReplies || quickReplies.length === 0) return "";
         return `<div class="quick-replies">` +
             quickReplies
-                .map(qr => `<button type="button" class="quick-reply-btn" data-action="${escapeHtmlSafe(qr.id)}" onclick="RSAI.handleQuickReply('${qr.id.replace(/'/g, "\\'")}')">${qr.label}</button>`)
+                .map(qr => {
+                    const rawId = (qr && qr.id !== undefined) ? qr.id : ((qr && qr.label) ? qr.label : "");
+                    const idStr = String(rawId || "");
+                    const labelStr = (qr && qr.label !== undefined) ? qr.label : idStr;
+                    return `<button type="button" class="quick-reply-btn" data-action="${escapeHtmlSafe(idStr)}" onclick="RSAI.handleQuickReply('${idStr.replace(/'/g, "\\'")}')">${escapeHtmlSafe(labelStr)}</button>`;
+                })
                 .join("") +
             `</div>`;
     }
@@ -1579,15 +1648,22 @@ ibly cover in one go.
     }
 
     function renderBotResponse(response) {
+        if (!response) {
+            setLocked(false);
+            return;
+        }
+
         let html = response.text || "";
 
         if (response.options && Array.isArray(response.options)) {
             html += "<br><br>";
             html += response.options
                 .map(opt => {
-                    const val = typeof opt === "string" ? opt : opt.value || opt.text;
-                    const txt = typeof opt === "string" ? opt : opt.text;
-                    return `<button type="button" class="chat-option-btn" onclick="RSAI.chatOption('${val.replace(/'/g, "\\'")}')">${txt}</button>`;
+                    const val = typeof opt === "string" ? opt : (opt?.value !== undefined ? opt.value : (opt?.text || ""));
+                    const txt = typeof opt === "string" ? opt : (opt?.text !== undefined ? opt.text : (opt?.value || ""));
+                    const valStr = String(val || "");
+                    const txtStr = String(txt || "");
+                    return `<button type="button" class="chat-option-btn" onclick="RSAI.chatOption('${valStr.replace(/'/g, "\\'")}')">${escapeHtmlSafe(txtStr)}</button>`;
                 })
                 .join("");
         }

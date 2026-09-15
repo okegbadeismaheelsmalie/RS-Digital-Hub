@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard | RS Digital Hub 👑</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230c1120'/%3E%3Ctext x='50' y='66' font-size='58' text-anchor='middle'%3E%F0%9F%91%91%3C/text%3E%3C/svg%3E">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="portal-body">
+
+  <!-- Sidebar -->
+  <aside class="portal-sidebar" id="portalSidebar">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <span>👑</span> RS Digital Hub
+      </a>
+      <button type="button" class="sidebar-close-btn" id="sidebarCloseBtn">✕</button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button type="button" class="nav-item active" data-target="overview">
+        <span class="nav-item-icon">📊</span>
+        <span>Overview</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="projects">
+        <span class="nav-item-icon">📁</span>
+        <span>My Projects</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="estimates">
+        <span class="nav-item-icon">📝</span>
+        <span>Estimates</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="invoices">
+        <span class="nav-item-icon">🧾</span>
+        <span>Billing & Invoices</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="payments">
+        <span class="nav-item-icon">💳</span>
+        <span>Payment History</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="messages">
+        <span class="nav-item-icon">💬</span>
+        <span>Discussions</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="notifications">
+        <span class="nav-item-icon">🔔</span>
+        <span>Notifications</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="profile">
+        <span class="nav-item-icon">⚙️</span>
+        <span>Settings</span>
+      </button>
+
+      <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);">
+        <a href="/" class="nav-item" style="color: var(--text-muted);">
+          <span class="nav-item-icon">🏠</span>
+          <span>Back to Main Site</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-circle dashboard-user-avatar">U</div>
+        <div class="user-info">
+          <span class="user-name dashboard-user-name">Loading...</span>
+          <span class="user-role-tag dashboard-user-role">Customer Account</span>
+        </div>
+      </div>
+      <button type="button" class="sidebar-logout-btn" id="sidebarLogoutBtn" title="Sign Out">
+        🚪
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="portal-main">
+    
+    <!-- Top Header Bar -->
+    <header class="portal-header">
+      <div class="header-left">
+        <button type="button" class="mobile-nav-toggle" id="mobileNavToggle">☰</button>
+        <h1 class="header-title" id="currentSectionTitle">Dashboard Overview</h1>
+      </div>
+
+      <div class="header-right">
+        <button type="button" class="header-btn primary" id="startNewProjectBtn">
+          <span>+ Start New Project</span>
+        </button>
+
+        <button type="button" class="notif-bell-btn" onclick="window.location.hash = 'notifications'">
+          <span>🔔</span>
+          <span class="notif-badge-count" id="notifBadgeCount" style="display:none;">0</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Body -->
+    <main class="portal-content">
+
+      <!-- SECTION: OVERVIEW -->
+      <section id="sec-overview" class="dashboard-section active">
+        <!-- Metric Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Active Projects</span>
+              <span class="metric-icon">🚀</span>
+            </div>
+            <div class="metric-val" id="metricActiveProjects">0</div>
+            <div class="metric-sub">In development or review</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Pending Estimates</span>
+              <span class="metric-icon">📝</span>
+            </div>
+            <div class="metric-val" id="metricPendingEstimates">0</div>
+            <div class="metric-sub">Awaiting your approval</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Invoices Due</span>
+              <span class="metric-icon">💳</span>
+            </div>
+            <div class="metric-val" id="metricUnpaidInvoices">0</div>
+            <div class="metric-sub">Awaiting deposit or balance</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Verified Status</span>
+              <span class="metric-icon">👑</span>
+            </div>
+            <div class="metric-val" style="color:#6ee7b7; font-size:20px; margin-top:6px;">Active Client</div>
+            <div class="metric-sub">RS Digital Hub Direct Channel</div>
+          </div>
+        </div>
+
+        <!-- Recent Projects -->
+        <div class="section-head">
+          <h2>Recent Projects</h2>
+          <a href="#projects" class="header-btn" style="padding: 6px 12px; font-size: 12.5px;">View All</a>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Project Name</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="overviewProjectsTbody">
+                <tr><td colspan="5" style="text-align:center; padding: 24px;">Loading projects...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Invoices Due -->
+        <div class="section-head">
+          <h2>Outstanding Invoices</h2>
+          <a href="#invoices" class="header-btn" style="padding: 6px 12px; font-size: 12.5px;">View Billing</a>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Total Amount</th>
+                  <th>Paid Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="overviewInvoicesTbody">
+                <tr><td colspan="5" style="text-align:center; padding: 24px;">Loading invoices...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: PROJECTS -->
+      <section id="sec-projects" class="dashboard-section">
+        <div class="section-head">
+          <h2>My Projects</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Project Code</th>
+                  <th>Project Title & Scope</th>
+                  <th>Budget</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading projects...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: ESTIMATES -->
+      <section id="sec-estimates" class="dashboard-section">
+        <div class="section-head">
+          <h2>Estimates & Quotations</h2>
+        </div>
+        <div id="estimatesContainer">
+          <div class="data-card" style="padding: 24px; text-align: center;">Loading estimates...</div>
+        </div>
+      </section>
+
+      <!-- SECTION: INVOICES -->
+      <section id="sec-invoices" class="dashboard-section">
+        <div class="section-head">
+          <h2>Billing & Invoices</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Project Reference</th>
+                  <th>Amount</th>
+                  <th>Paid</th>
+                  <th>Status</th>
+                  <th>Payment Action</th>
+                </tr>
+              </thead>
+              <tbody id="invoicesTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading invoices...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: PAYMENTS -->
+      <section id="sec-payments" class="dashboard-section">
+        <div class="section-head">
+          <h2>Payment History</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Date Submitted</th>
+                  <th>Status</th>
+                  <th>Verification Notes</th>
+                </tr>
+              </thead>
+              <tbody id="paymentsTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading payments...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: MESSAGES -->
+      <section id="sec-messages" class="dashboard-section">
+        <div class="section-head">
+          <h2>Direct Discussion with Royal Smalie 👑</h2>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label for="chatProjectSelect" style="font-size: 13px; color: var(--text-muted);">Select Project:</label>
+            <select id="chatProjectSelect" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: var(--text-primary); padding: 6px 12px; border-radius: 6px; font-size: 13px; outline: none;"></select>
+          </div>
+        </div>
+
+        <div class="chat-window">
+          <div class="chat-messages" id="chatMessagesContainer">
+            <div style="text-align: center; color: var(--text-muted); padding: 40px;">Select a project to load discussion thread.</div>
+          </div>
+          <form class="chat-input-bar" id="chatInputForm">
+            <input type="text" id="chatMessageInput" placeholder="Type your message or project question here..." autocomplete="off" required>
+            <button type="submit" class="header-btn primary">Send Message</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- SECTION: NOTIFICATIONS -->
+      <section id="sec-notifications" class="dashboard-section">
+        <div class="section-head">
+          <h2>Notifications</h2>
+        </div>
+        <div id="notificationsList">
+          <div style="text-align: center; color: var(--text-muted); padding: 32px;">Loading notifications...</div>
+        </div>
+      </section>
+
+      <!-- SECTION: PROFILE -->
+      <section id="sec-profile" class="dashboard-section">
+        <div class="section-head">
+          <h2>Account Settings</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          <!-- Profile details -->
+          <div class="data-card" style="padding: 24px;">
+            <h3 style="margin: 0 0 16px; font-size: 16px;">Contact Information</h3>
+            <form id="profileForm" class="auth-form">
+              <div class="form-group">
+                <label for="profileFullName">Full Name</label>
+                <input type="text" id="profileFullName" required>
+              </div>
+              <div class="form-group">
+                <label for="profileEmail">Email Address</label>
+                <input type="email" id="profileEmail" disabled style="opacity: 0.6;">
+                <span class="hint">Contact support if you need to change your registered email</span>
+              </div>
+              <div class="form-group">
+                <label for="profilePhone">WhatsApp Phone</label>
+                <input type="tel" id="profilePhone" placeholder="+234 800 000 0000">
+              </div>
+              <button type="submit" class="header-btn primary" style="justify-content:center;">Save Profile Changes</button>
+            </form>
+          </div>
+
+          <!-- Password change -->
+          <div class="data-card" style="padding: 24px;">
+            <h3 style="margin: 0 0 16px; font-size: 16px;">Change Password</h3>
+            <form id="passwordChangeForm" class="auth-form">
+              <div class="form-group">
+                <label for="currentPasswordInput">Current Password</label>
+                <input type="password" id="currentPasswordInput" required>
+              </div>
+              <div class="form-group">
+                <label for="newPasswordInput">New Password</label>
+                <input type="password" id="newPasswordInput" minlength="6" required>
+              </div>
+              <button type="submit" class="header-btn primary" style="justify-content:center;">Update Password</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: Start New Project -->
+  <div class="portal-modal-overlay" id="newProjectModal">
+    <div class="portal-modal">
+      <div class="modal-header">
+        <h3>Request New Project</h3>
+        <button type="button" class="modal-close-btn">✕</button>
+      </div>
+      <form id="newProjectForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="npService">Required Service</label>
+            <select id="npService" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: var(--text-primary); padding: 12px; border-radius: 8px; width: 100%; outline: none;" required>
+              <option value="Website Development">Website Development</option>
+              <option value="Graphic Design">Graphic Design & Branding</option>
+              <option value="AI Solutions">AI Solutions & Automation</option>
+              <option value="Web Applications">Custom Web Applications</option>
+              <option value="Computer Training">Computer & Tech Training</option>
+              <option value="Technical Support">Technical Maintenance & Support</option>
+            </select>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label for="npBudget">Estimated Budget (₦)</label>
+              <input type="number" id="npBudget" placeholder="e.g. 150000" min="5000">
+            </div>
+            <div class="form-group">
+              <label for="npDeadline">Target Deadline</label>
+              <input type="date" id="npDeadline">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="npDescription">Project Scope & Requirements</label>
+            <textarea id="npDescription" rows="4" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: var(--text-primary); padding: 12px; border-radius: 8px; width: 100%; outline: none; font-family: inherit; font-size: 14px;" placeholder="Tell us what you want to achieve, features required, references, etc." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="header-btn modal-cancel-btn">Cancel</button>
+          <button type="submit" class="header-btn primary" id="newProjSubmitBtn">Submit Project Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Pay Invoice with Bank Transfer -->
+  <div class="portal-modal-overlay" id="payInvoiceModal">
+    <div class="portal-modal">
+      <div class="modal-header">
+        <h3>Submit Bank Transfer Payment</h3>
+        <button type="button" class="modal-close-btn">✕</button>
+      </div>
+      <form id="payInvoiceForm">
+        <input type="hidden" id="payInvoiceIdInput">
+        <div class="modal-body">
+          <div style="font-size: 13.5px; color: var(--text-muted);">
+            Invoice: <strong id="payInvoiceLabel" style="color: var(--text-primary);">INV-XXXX</strong>
+          </div>
+
+          <!-- Official Bank Details -->
+          <div class="bank-instructions-box">
+            <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #60a5fa; margin-bottom: 8px; letter-spacing: 0.04em;">
+              Official RS Digital Hub Bank Account
+            </div>
+            <div class="bank-row">
+              <span class="bank-row-label">Bank Name</span>
+              <span class="bank-row-val" id="modalBankName">OPay / First Bank</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row-label">Account Name</span>
+              <span class="bank-row-val" id="modalAccountName">RS Digital Hub / Royal Smalie</span>
+            </div>
+            <div class="bank-row">
+              <span class="bank-row-label">Account Number</span>
+              <span class="bank-row-val">
+                <span id="modalAccountNumber" style="font-family: var(--font-mono); font-size: 16px; color: #38bdf8;">09117035399</span>
+                <button type="button" class="copy-btn" id="copyAccNumBtn">Copy</button>
+              </span>
+            </div>
+          </div>
+
+          <p id="modalPaymentNotes" style="font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.45;">
+            Transfer the required deposit or balance, then enter the payment reference/session ID below.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-group">
+              <label for="payAmountInput">Amount Paid (₦)</label>
+              <input type="number" id="payAmountInput" required>
+            </div>
+            <div class="form-group">
+              <label for="payMethodSelect">Payment Method</label>
+              <select id="payMethodSelect" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: var(--text-primary); padding: 12px; border-radius: 8px; width: 100%; outline: none;">
+                <option value="Bank Transfer (OPay)">Bank Transfer (OPay)</option>
+                <option value="Bank Transfer (Commercial Bank)">Bank Transfer (Commercial)</option>
+                <option value="Direct Deposit">Direct Bank Deposit</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="payReferenceInput">Transaction Reference / Session ID</label>
+            <input type="text" id="payReferenceInput" placeholder="e.g. 09117035399260822101..." required>
+            <span class="hint">Found on your bank transfer receipt or debit alert</span>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="header-btn modal-cancel-btn">Cancel</button>
+          <button type="submit" class="header-btn primary" id="submitPaymentBtn">Submit Payment for Verification</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Project Details & Files -->
+  <div class="portal-modal-overlay" id="projectDetailsModal">
+    <div class="portal-modal" style="max-width: 680px;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <h3 id="pdProjectCode">RDH-0000</h3>
+          <span class="status-pill SUBMITTED" id="pdStatus">SUBMITTED</span>
+        </div>
+        <button type="button" class="modal-close-btn">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <h4 id="pdProjectTitle" style="margin: 0; font-size: 16px;">Project Title</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px;">
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);">Service</div>
+            <div id="pdService" style="font-weight: 600; font-size: 13px;">Website</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);">Budget</div>
+            <div id="pdBudget" style="font-weight: 600; font-size: 13px;">₦150,000</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);">Target Deadline</div>
+            <div id="pdDeadline" style="font-weight: 600; font-size: 13px;">Oct 15, 2026</div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px;">Scope Description</div>
+          <p id="pdDescription" style="font-size: 13.5px; margin: 0; color: var(--text-primary); line-height: 1.5;"></p>
+        </div>
+
+        <div>
+          <div style="font-size: 13px; font-weight: 600; margin-bottom: 10px;">Project Timeline & Milestones</div>
+          <div id="pdTimeline"></div>
+        </div>
+
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 13px; font-weight: 600;">Attachments & Files</span>
+            <label class="header-btn" style="padding: 4px 10px; font-size: 12px; cursor: pointer;">
+              <span>+ Upload File</span>
+              <input type="file" id="projectFileInput" style="display: none;">
+            </label>
+          </div>
+          <input type="hidden" id="fileUploadProjectId">
+          <div id="pdFiles"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="header-btn modal-cancel-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

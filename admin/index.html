@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Operations Portal | RS Digital Hub 👑</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%230c1120'/%3E%3Ctext x='50' y='66' font-size='58' text-anchor='middle'%3E%F0%9F%91%91%3C/text%3E%3C/svg%3E">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="portal-body">
+
+  <!-- Admin Gate Modal (If not logged in as admin) -->
+  <div id="adminLoginGate" style="display:none; position:fixed; inset:0; background:#05070d; z-index:9999; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#0c1120; border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:36px 32px; width:100%; max-width:440px; box-shadow:0 25px 50px rgba(0,0,0,0.6); text-align:center;">
+      <div style="font-size:36px; margin-bottom:12px;">👑</div>
+      <h2 style="margin:0 0 6px; font-size:22px; font-weight:700;">Royal Smalie Admin Portal</h2>
+      <p style="color:var(--text-muted); font-size:13.5px; margin:0 0 24px;">Please authenticate with your administrator credentials to access the business operations console.</p>
+
+      <div id="gateError" style="display:none; background:rgba(239,68,68,0.15); border:1px solid rgba(239,68,68,0.3); color:#fca5a5; padding:10px 14px; border-radius:8px; font-size:13px; margin-bottom:16px; text-align:left;"></div>
+
+      <form id="adminGateLoginForm" class="auth-form" style="text-align:left;">
+        <div class="form-group">
+          <label>Admin Email Address</label>
+          <input type="email" id="gateEmail" placeholder="admin@rsdigitalhub.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label>Administrator Password</label>
+          <input type="password" id="gatePassword" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="auth-submit-btn" style="margin-top:10px;">Sign In to Operations Console</button>
+      </form>
+      <div style="margin-top:20px;">
+        <a href="/" style="color:var(--text-muted); font-size:13px; text-decoration:none;">← Back to Homepage</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="portal-sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="sidebar-brand">
+        <span>👑</span> RS Operations
+      </a>
+      <span class="admin-badge">Admin</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button type="button" class="nav-item active" data-target="overview">
+        <span class="nav-item-icon">📊</span>
+        <span>Overview</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="projects">
+        <span class="nav-item-icon">🚀</span>
+        <span>Projects Pipeline</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="estimates">
+        <span class="nav-item-icon">📝</span>
+        <span>Estimates & Quotes</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="invoices">
+        <span class="nav-item-icon">🧾</span>
+        <span>Invoices & Billing</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="approvals">
+        <span class="nav-item-icon">💳</span>
+        <span>Payment Approvals</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="pricing">
+        <span class="nav-item-icon">🏷️</span>
+        <span>Pricing Rules</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="settings">
+        <span class="nav-item-icon">🏦</span>
+        <span>Bank Instructions</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="customers">
+        <span class="nav-item-icon">👥</span>
+        <span>Customer Directory</span>
+      </button>
+
+      <button type="button" class="nav-item" data-target="messages">
+        <span class="nav-item-icon">💬</span>
+        <span>Client Messages</span>
+      </button>
+
+      <div style="margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06);">
+        <a href="/" class="nav-item" style="color: var(--text-muted);">
+          <span class="nav-item-icon">🌐</span>
+          <span>View Live Site</span>
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar-circle admin-user-avatar">👑</div>
+        <div class="user-info">
+          <span class="user-name admin-user-name">Royal Smalie 👑</span>
+          <span class="user-role-tag">Super Admin</span>
+        </div>
+      </div>
+      <button type="button" class="sidebar-logout-btn" id="adminLogoutBtn" title="Sign Out">
+        🚪
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="portal-main">
+    <header class="portal-header">
+      <div class="header-left">
+        <h1 class="header-title" id="adminHeaderTitle">Operations Control Center</h1>
+      </div>
+
+      <div class="header-right admin-action-bar">
+        <button type="button" class="header-btn" id="adminNewEstimateBtn">
+          <span>+ Issue Estimate</span>
+        </button>
+        <a href="/" target="_blank" class="header-btn primary">
+          <span>Visit Main Site ↗</span>
+        </a>
+      </div>
+    </header>
+
+    <main class="portal-content">
+
+      <!-- ADM OVERVIEW -->
+      <section id="adm-overview" class="dashboard-section active">
+        <div class="metrics-grid">
+          <div class="metric-card revenue-card">
+            <div class="metric-header">
+              <span style="color: #6ee7b7;">Verified Revenue</span>
+              <span>💰</span>
+            </div>
+            <div class="revenue-val" id="mTotalRevenue">₦0</div>
+            <div class="metric-sub" style="color: #6ee7b7;">Cleared in Bank Account</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Active Projects</span>
+              <span>🚀</span>
+            </div>
+            <div class="metric-val" id="mActiveProjects">0</div>
+            <div class="metric-sub">Currently In Production</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Pending Payments</span>
+              <span>💳</span>
+            </div>
+            <div class="metric-val" id="mPendingApprovals">0</div>
+            <div class="metric-sub">Awaiting Bank Clearance</div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <span>Registered Clients</span>
+              <span>👥</span>
+            </div>
+            <div class="metric-val" id="mTotalCustomers">0</div>
+            <div class="metric-sub">Active Customer Accounts</div>
+          </div>
+        </div>
+
+        <div class="section-head">
+          <h2>Pending Bank Transfer Approvals</h2>
+          <a href="#approvals" class="header-btn" style="padding: 6px 12px; font-size: 12.5px;">All Payments</a>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Payment Ref</th>
+                  <th>Client</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="overviewPendingPaymentsTbody">
+                <tr><td colspan="5" style="text-align:center; padding: 20px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADM PROJECTS -->
+      <section id="adm-projects" class="dashboard-section">
+        <div class="section-head">
+          <h2>Client Projects Pipeline</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Project Details & Client</th>
+                  <th>Budget</th>
+                  <th>Progress</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminProjectsTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADM ESTIMATES -->
+      <section id="adm-estimates" class="dashboard-section">
+        <div class="section-head">
+          <h2>Estimates & Quotations</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Estimate #</th>
+                  <th>Project</th>
+                  <th>Total</th>
+                  <th>Valid Until</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminEstimatesTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADM INVOICES -->
+      <section id="adm-invoices" class="dashboard-section">
+        <div class="section-head">
+          <h2>Invoices & Billing</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Project</th>
+                  <th>Amount</th>
+                  <th>Paid</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="adminInvoicesTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADM APPROVALS -->
+      <section id="adm-approvals" class="dashboard-section">
+        <div class="section-head">
+          <h2>Customer Payment Verifications</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Reference</th>
+                  <th>Customer</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Submitted</th>
+                  <th>Status</th>
+                  <th>Verification Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminApprovalsTableBody">
+                <tr><td colspan="7" style="text-align:center; padding: 24px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADM PRICING RULES -->
+      <section id="adm-pricing" class="dashboard-section">
+        <div class="section-head">
+          <h2>Service Pricing Rules Management</h2>
+        </div>
+        <p style="color:var(--text-muted); font-size:13.5px; margin-bottom:20px;">
+          Changes saved here automatically update the Project Estimator and customer quotation calculator without touching code.
+        </p>
+        <div id="adminPricingRulesContainer">Loading pricing rules...</div>
+      </section>
+
+      <!-- ADM SETTINGS -->
+      <section id="adm-settings" class="dashboard-section">
+        <div class="section-head">
+          <h2>Approved Bank Account Settings</h2>
+        </div>
+        <div class="data-card" style="padding:28px; max-width:600px;">
+          <form id="adminPaymentSettingsForm" class="auth-form">
+            <div class="form-group">
+              <label>Bank Name</label>
+              <input type="text" id="settingBankName" required>
+            </div>
+            <div class="form-group">
+              <label>Account Name</label>
+              <input type="text" id="settingAccountName" required>
+            </div>
+            <div class="form-group">
+              <label>Account Number</label>
+              <input type="text" id="settingAccountNumber" required>
+            </div>
+            <div class="form-group">
+              <label>Customer Payment Instructions</label>
+              <textarea id="settingPaymentNotes" rows="3" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:var(--text-primary); padding:12px; border-radius:8px; width:100%; outline:none; font-family:inherit; font-size:13.5px;"></textarea>
+            </div>
+            <button type="submit" class="header-btn primary" style="justify-content:center; margin-top:10px;">
+              Save Bank Details
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ADM CUSTOMERS -->
+      <section id="adm-customers" class="dashboard-section">
+        <div class="section-head">
+          <h2>Customer Accounts Directory</h2>
+        </div>
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Client Name</th>
+                  <th>Email</th>
+                  <th>WhatsApp Phone</th>
+                  <th>Projects</th>
+                  <th>Total Spent</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody id="adminCustomersTableBody">
+                <tr><td colspan="6" style="text-align:center; padding: 24px;">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADM MESSAGES -->
+      <section id="adm-messages" class="dashboard-section">
+        <div class="section-head">
+          <h2>Client Inquiries & Project Threads</h2>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label style="font-size:13px; color:var(--text-muted);">Select Project:</label>
+            <select id="adminChatProjectSelect" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:13px; outline:none;"></select>
+          </div>
+        </div>
+        <div class="chat-window">
+          <div class="chat-messages" id="adminChatMessages">
+            <div style="text-align:center; color:var(--text-muted); padding:40px;">Select a project thread to load messages.</div>
+          </div>
+          <form class="chat-input-bar" id="adminChatForm">
+            <input type="text" id="adminChatInput" placeholder="Reply to client as Royal Smalie 👑..." autocomplete="off" required>
+            <button type="submit" class="header-btn primary">Send Reply</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: Manage Project Status & Progress -->
+  <div class="portal-modal-overlay" id="manageProjectModal">
+    <div class="portal-modal">
+      <div class="modal-header">
+        <h3 id="manageProjCode">RDH-0000</h3>
+        <button type="button" class="modal-close-btn">✕</button>
+      </div>
+      <form id="manageProjectForm">
+        <input type="hidden" id="manageProjId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Project Status</label>
+            <select id="manageProjStatus" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:var(--text-primary); padding:10px; border-radius:8px; width:100%; outline:none;">
+              <option value="SUBMITTED">SUBMITTED</option>
+              <option value="REVIEWING">REVIEWING</option>
+              <option value="APPROVED">APPROVED</option>
+              <option value="IN_PROGRESS">IN_PROGRESS</option>
+              <option value="REVIEW">REVIEW (Staging Preview)</option>
+              <option value="COMPLETED">COMPLETED</option>
+              <option value="CANCELLED">CANCELLED</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Progress Completion (%)</label>
+            <input type="number" id="manageProjProgress" min="0" max="100" required>
+          </div>
+
+          <div class="form-group">
+            <label>Timeline Note / Status Update Description</label>
+            <textarea id="manageProjNotes" rows="3" placeholder="Explain what was accomplished (e.g., Homepage layout finished, staging link deployed)"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="header-btn modal-cancel-btn">Cancel</button>
+          <button type="submit" class="header-btn primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Issue Estimate -->
+  <div class="portal-modal-overlay" id="createEstimateModal">
+    <div class="portal-modal">
+      <div class="modal-header">
+        <h3>Issue New Project Estimate</h3>
+        <button type="button" class="modal-close-btn">✕</button>
+      </div>
+      <form id="createEstimateForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Project</label>
+            <select id="estProjectSelect" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:var(--text-primary); padding:10px; border-radius:8px; width:100%; outline:none;"></select>
+          </div>
+
+          <div class="form-group">
+            <label>Deliverable Scope / Line Item</label>
+            <input type="text" id="estItemDesc" placeholder="e.g. 5-Page Responsive Website & WhatsApp Setup" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label>Amount (₦)</label>
+              <input type="number" id="estItemPrice" placeholder="120000" required>
+            </div>
+            <div class="form-group">
+              <label>Discount (₦)</label>
+              <input type="number" id="estDiscount" value="0">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Notes & Scope Terms</label>
+            <textarea id="estNotes" rows="2" placeholder="Turnaround is 10 business days. Includes 3 revision rounds."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="header-btn modal-cancel-btn">Cancel</button>
+          <button type="submit" class="header-btn primary">Send Estimate to Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Create Invoice -->
+  <div class="portal-modal-overlay" id="createInvoiceModal">
+    <div class="portal-modal">
+      <div class="modal-header">
+        <h3>Generate Milestone Invoice</h3>
+        <button type="button" class="modal-close-btn">✕</button>
+      </div>
+      <form id="createInvoiceForm">
+        <input type="hidden" id="invProjectId">
+        <input type="hidden" id="invEstimateId">
+        <div class="modal-body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label>Invoice Amount (₦)</label>
+              <input type="number" id="invAmount" required>
+            </div>
+            <div class="form-group">
+              <label>Due Date</label>
+              <input type="date" id="invDueDate" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Milestone Notes & Description</label>
+            <textarea id="invNotes" rows="3" required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="header-btn modal-cancel-btn">Cancel</button>
+          <button type="submit" class="header-btn primary">Issue Invoice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin-dashboard.js"></script>
+</body>
+</html>
