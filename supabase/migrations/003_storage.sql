@@ -45,13 +45,22 @@ CREATE POLICY "View payment proofs"
         )
     );
 
--- 2.2 Project Attachments Bucket
+-- 2.2 Project Attachments Bucket (Isolated by Project Ownership or User ID)
 DROP POLICY IF EXISTS "Upload project attachments" ON storage.objects;
 CREATE POLICY "Upload project attachments"
     ON storage.objects FOR INSERT
     WITH CHECK (
         bucket_id = 'project-attachments'
         AND auth.uid() IS NOT NULL
+        AND (
+            public.is_admin()
+            OR (storage.foldername(name))[1] = auth.uid()::text
+            OR EXISTS (
+                SELECT 1 FROM public.projects 
+                WHERE (projects.id::text = (storage.foldername(name))[1] OR projects.project_code = (storage.foldername(name))[1])
+                  AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+            )
+        )
     );
 
 DROP POLICY IF EXISTS "View project attachments" ON storage.objects;
@@ -60,8 +69,13 @@ CREATE POLICY "View project attachments"
     USING (
         bucket_id = 'project-attachments'
         AND (
-            auth.uid() IS NOT NULL
-            OR public.is_admin()
+            public.is_admin()
+            OR (storage.foldername(name))[1] = auth.uid()::text
+            OR EXISTS (
+                SELECT 1 FROM public.projects 
+                WHERE (projects.id::text = (storage.foldername(name))[1] OR projects.project_code = (storage.foldername(name))[1])
+                  AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+            )
         )
     );
 

@@ -1,4 +1,5 @@
 # Netlify Redirects for RS Digital Hub Single-Page Routing
+/api/*           /.netlify/functions/api/:splat   200
 /dashboard       /dashboard.html        200
 /dashboard/*     /dashboard.html        200
 /admin           /admin/index.html      200

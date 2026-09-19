@@ -42,6 +42,7 @@
 
     // Setup navigation router
     setupNavigation();
+    updateDatastoreBadge();
 
     // Fetch initial datasets in parallel
     await Promise.all([
@@ -879,6 +880,30 @@
           alert('Upload failed.');
         }
       };
+    }
+  }
+
+  async function updateDatastoreBadge() {
+    const textEl = document.getElementById('customerDatastoreText');
+    const dotEl = document.getElementById('customerDatastoreDot');
+    const badgeEl = document.getElementById('customerDatastoreBadge');
+    if (!textEl || !dotEl) return;
+
+    try {
+      const res = await fetch('/api/health');
+      const data = await res.json();
+      if (data.supabaseConnected || data.mode === 'production') {
+        dotEl.style.background = '#10b981';
+        textEl.textContent = 'Supabase Connected ☁️';
+        if (badgeEl) badgeEl.title = 'Cloud Datastore Connected (Supabase)';
+      } else {
+        dotEl.style.background = '#f59e0b';
+        textEl.textContent = 'Preview Datastore';
+        if (badgeEl) badgeEl.title = 'Preview Mode: In-memory datastore active.';
+      }
+    } catch (e) {
+      dotEl.style.background = '#6b7280';
+      textEl.textContent = 'Offline Mode';
     }
   }
 

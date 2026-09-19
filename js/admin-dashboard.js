@@ -26,6 +26,7 @@
     }
 
     setupAdminUI();
+    updateDatastoreBadge();
     await loadAllAdminData();
     renderOverview();
 
@@ -645,6 +646,30 @@
         document.querySelectorAll('.portal-modal-overlay').forEach(m => m.classList.remove('active'));
       };
     });
+  }
+
+  async function updateDatastoreBadge() {
+    const textEl = document.getElementById('datastoreStatusText');
+    const dotEl = document.getElementById('datastoreStatusDot');
+    const badgeEl = document.getElementById('datastoreStatusBadge');
+    if (!textEl || !dotEl) return;
+
+    try {
+      const res = await fetch('/api/health');
+      const data = await res.json();
+      if (data.supabaseConnected || data.mode === 'production') {
+        dotEl.style.background = '#10b981';
+        textEl.textContent = 'Supabase Connected ☁️';
+        if (badgeEl) badgeEl.title = 'Production Cloud Datastore Active (Supabase)';
+      } else {
+        dotEl.style.background = '#f59e0b';
+        textEl.textContent = 'Preview Datastore (Memory)';
+        if (badgeEl) badgeEl.title = 'Preview Mode: In-memory datastore active. To persist permanently across restarts, configure SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.';
+      }
+    } catch (e) {
+      dotEl.style.background = '#6b7280';
+      textEl.textContent = 'Offline Mode';
+    }
   }
 
   function escapeHtml(str) {

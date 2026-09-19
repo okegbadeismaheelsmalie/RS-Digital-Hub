@@ -43,7 +43,7 @@ export default async (request) => {
     // ---------------------------------------------------------
 
     const supabaseUrl = process.env.SUPABASE_URL;
-    const supabaseSecret = process.env.SUPABASE_SECRET_KEY;
+    const supabaseSecret = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
 
     if (!supabaseUrl || !supabaseSecret) {
       return new Response(

@@ -449,7 +449,13 @@ CREATE POLICY "View activity for permitted projects"
 DROP POLICY IF EXISTS "Insert activity for permitted projects" ON public.project_activity;
 CREATE POLICY "Insert activity for permitted projects" 
     ON public.project_activity FOR INSERT 
-    WITH CHECK (auth.uid() IS NOT NULL);
+    WITH CHECK (
+        public.is_admin() OR EXISTS (
+            SELECT 1 FROM public.projects 
+            WHERE projects.id = project_activity.project_id 
+              AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+        )
+    );
 
 -- Project Files Policies
 DROP POLICY IF EXISTS "View files for permitted projects" ON public.project_files;
@@ -569,7 +575,17 @@ CREATE POLICY "View messages"
 DROP POLICY IF EXISTS "Send messages" ON public.messages;
 CREATE POLICY "Send messages" 
     ON public.messages FOR INSERT 
-    WITH CHECK (auth.uid() IS NOT NULL AND sender_id = auth.uid());
+    WITH CHECK (
+        auth.uid() IS NOT NULL 
+        AND sender_id = auth.uid()
+        AND (
+            public.is_admin() OR EXISTS (
+                SELECT 1 FROM public.projects 
+                WHERE projects.id = messages.project_id 
+                  AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+            )
+        )
+    );
 
 DROP POLICY IF EXISTS "Update message read status" ON public.messages;
 CREATE POLICY "Update message read status" 
@@ -626,7 +642,10 @@ CREATE POLICY "Authenticated users can upload payment proofs"
     WITH CHECK (
         bucket_id = 'payment-proofs' 
         AND auth.uid() IS NOT NULL
-        AND (storage.foldername(name))[1] = auth.uid()::text
+        AND (
+            public.is_admin()
+            OR (storage.foldername(name))[1] = auth.uid()::text
+        )
     );
 
 DROP POLICY IF EXISTS "View payment proofs" ON storage.objects;
@@ -635,8 +654,8 @@ CREATE POLICY "View payment proofs"
     USING (
         bucket_id = 'payment-proofs'
         AND (
-            (storage.foldername(name))[1] = auth.uid()::text
-            OR public.is_admin()
+            public.is_admin()
+            OR (storage.foldername(name))[1] = auth.uid()::text
         )
     );
 
@@ -646,6 +665,15 @@ CREATE POLICY "Upload project attachments"
     WITH CHECK (
         bucket_id = 'project-attachments'
         AND auth.uid() IS NOT NULL
+        AND (
+            public.is_admin()
+            OR (storage.foldername(name))[1] = auth.uid()::text
+            OR EXISTS (
+                SELECT 1 FROM public.projects 
+                WHERE (projects.id::text = (storage.foldername(name))[1] OR projects.project_code = (storage.foldername(name))[1])
+                  AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+            )
+        )
     );
 
 DROP POLICY IF EXISTS "View project attachments" ON storage.objects;
@@ -654,8 +682,13 @@ CREATE POLICY "View project attachments"
     USING (
         bucket_id = 'project-attachments'
         AND (
-            auth.uid() IS NOT NULL
-            OR public.is_admin()
+            public.is_admin()
+            OR (storage.foldername(name))[1] = auth.uid()::text
+            OR EXISTS (
+                SELECT 1 FROM public.projects 
+                WHERE (projects.id::text = (storage.foldername(name))[1] OR projects.project_code = (storage.foldername(name))[1])
+                  AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+            )
         )
     );
 

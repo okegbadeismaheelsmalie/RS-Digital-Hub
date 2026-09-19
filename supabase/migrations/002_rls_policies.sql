@@ -91,7 +91,13 @@ CREATE POLICY "View activity for permitted projects"
 DROP POLICY IF EXISTS "Insert activity for permitted projects" ON public.project_activity;
 CREATE POLICY "Insert activity for permitted projects" 
     ON public.project_activity FOR INSERT 
-    WITH CHECK (auth.uid() IS NOT NULL);
+    WITH CHECK (
+        public.is_admin() OR EXISTS (
+            SELECT 1 FROM public.projects 
+            WHERE projects.id = project_activity.project_id 
+              AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+        )
+    );
 
 -- -----------------------------------------------------------------------------
 -- 5. Project Files Policies
@@ -221,7 +227,17 @@ CREATE POLICY "View messages"
 DROP POLICY IF EXISTS "Send messages" ON public.messages;
 CREATE POLICY "Send messages" 
     ON public.messages FOR INSERT 
-    WITH CHECK (auth.uid() IS NOT NULL AND sender_id = auth.uid());
+    WITH CHECK (
+        auth.uid() IS NOT NULL 
+        AND sender_id = auth.uid()
+        AND (
+            public.is_admin() OR EXISTS (
+                SELECT 1 FROM public.projects 
+                WHERE projects.id = messages.project_id 
+                  AND (projects.customer_id = auth.uid() OR projects.client_id = auth.uid())
+            )
+        )
+    );
 
 DROP POLICY IF EXISTS "Update message read status" ON public.messages;
 CREATE POLICY "Update message read status" 
