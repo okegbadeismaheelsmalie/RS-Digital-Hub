@@ -48,14 +48,14 @@ import {
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirPath = path.dirname(currentFilePath);
 
 const app = express();
 const PORT = 3000;
 
 // Ensure upload directory exists for local disk fallback
-const uploadDir = path.join(__dirname, 'uploads');
+const uploadDir = path.join(currentDirPath, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -959,35 +959,35 @@ app.get(['/api/config', '/.netlify/functions/config'], (req, res) => {
 // Clean Routing & Page Fallbacks
 // -----------------------------------------------------------------------------
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dashboard.html'));
+  res.sendFile(path.join(currentDirPath, 'dashboard.html'));
 });
 
 app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin', 'index.html'));
+  res.sendFile(path.join(currentDirPath, 'admin', 'index.html'));
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'auth.html'));
+  res.sendFile(path.join(currentDirPath, 'auth.html'));
 });
 
 app.get('/auth', (req, res) => {
-  res.sendFile(path.join(__dirname, 'auth.html'));
+  res.sendFile(path.join(currentDirPath, 'auth.html'));
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(path.join(__dirname, 'auth.html'));
+  res.sendFile(path.join(currentDirPath, 'auth.html'));
 });
 
 app.get('/thank-you', (req, res) => {
-  res.sendFile(path.join(__dirname, 'thank-you.html'));
+  res.sendFile(path.join(currentDirPath, 'thank-you.html'));
 });
 
 // Serve static assets from project root
-app.use(express.static(__dirname));
+app.use(express.static(currentDirPath));
 
 // Fallback to index.html for unknown routes
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(currentDirPath, 'index.html'));
 });
 
 // Export app and initializeDatastore for Netlify Serverless adapter
