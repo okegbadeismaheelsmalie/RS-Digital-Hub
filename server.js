@@ -55,7 +55,7 @@ const app = express();
 const PORT = 3000;
 
 // Ensure upload directory exists for local disk fallback
-const uploadDir = process.env.NETLIFY === 'true' ? path.join('/tmp', 'uploads') : path.join(currentDirPath, 'uploads');
+const isServerlessRuntime = Boolean(process.env.NETLIFY === 'true' || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.LAMBDA_TASK_ROOT || process.env.NETLIFY_DEV); const uploadDir = isServerlessRuntime ? path.join('/tmp', 'uploads') : path.join(currentDirPath, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
