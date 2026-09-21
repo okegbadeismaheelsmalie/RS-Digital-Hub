@@ -48,8 +48,8 @@ import {
 
 dotenv.config();
 
-const currentFilePath = fileURLToPath(import.meta.url);
-const currentDirPath = path.dirname(currentFilePath);
+const currentDirPath = process.cwd();
+
 
 const app = express();
 const PORT = 3000;
