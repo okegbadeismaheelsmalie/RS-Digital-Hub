@@ -55,7 +55,7 @@ const app = express();
 const PORT = 3000;
 
 // Ensure upload directory exists for local disk fallback
-const uploadDir = path.join(currentDirPath, 'uploads');
+const uploadDir = process.env.NETLIFY === 'true' ? path.join('/tmp', 'uploads') : path.join(currentDirPath, 'uploads');
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
