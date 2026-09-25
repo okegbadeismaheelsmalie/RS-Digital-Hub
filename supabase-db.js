@@ -460,7 +460,92 @@ export async function initializeDatastore() {
     console.error('[RS Hub Datastore] Initialization error:', err.message);
   }
 }
+// -----------------------------------------------------------------------------
+// Secure Existing Admin Password Recovery
+// -----------------------------------------------------------------------------
+export async function recoverAdminPassword(newPassword) {
+  if (!newPassword || typeof newPassword !== 'string' || newPassword.length < 8) {
+    throw new Error('New administrator password must be at least 8 characters long.');
+  }
 
+  const cleanAdminEmail = INITIAL_ADMIN_EMAIL.toLowerCase();
+
+  // Production: update the EXISTING Supabase Auth administrator.
+  // Never create a second admin account during recovery.
+  if (IS_SUPABASE_CONFIGURED && supabaseAdmin) {
+    const { data: existingUsers, error: listErr } =
+      await supabaseAdmin.auth.admin.listUsers();
+
+    if (listErr) {
+      throw new Error(
+        `Unable to inspect existing administrator account: ${listErr.message}`
+      );
+    }
+
+    const adminUser = existingUsers?.users?.find(
+      user => user.email?.toLowerCase() === cleanAdminEmail
+    );
+
+    if (!adminUser) {
+      throw new Error(
+        `Existing administrator account was not found for ${cleanAdminEmail}. No new account was created.`
+      );
+    }
+
+    const { error: updateErr } =
+      await supabaseAdmin.auth.admin.updateUserById(adminUser.id, {
+        password: newPassword
+      });
+
+    if (updateErr) {
+      throw new Error(
+        `Failed to update administrator password: ${updateErr.message}`
+      );
+    }
+
+    // Preserve the existing profile while ensuring the account remains admin.
+    const { error: profileErr } = await supabaseAdmin
+      .from('profiles')
+      .update({
+        role: 'admin',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', adminUser.id);
+
+    if (profileErr) {
+      console.warn(
+        '[RS Hub Admin Recovery] Profile role update notice:',
+        profileErr.message
+      );
+    }
+
+    return {
+      email: cleanAdminEmail,
+      role: 'admin',
+      provider: 'supabase'
+    };
+  }
+
+  // Preview/fallback mode.
+  const admin = memoryDb.profiles.find(
+    profile => profile.email?.toLowerCase() === cleanAdminEmail
+  );
+
+  if (!admin) {
+    throw new Error(
+      `Existing administrator account was not found for ${cleanAdminEmail}.`
+    );
+  }
+
+  admin.password_hash = hashPassword(newPassword);
+  admin.role = 'admin';
+
+  return {
+    email: admin.email,
+    role: 'admin',
+    provider: 'memory'
+  };
+}
 // -----------------------------------------------------------------------------
 // Data Access Repositories (Unified Supabase + In-Memory Fallback)
 // -----------------------------------------------------------------------------
